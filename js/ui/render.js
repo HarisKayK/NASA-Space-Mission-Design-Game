@@ -65,6 +65,9 @@ const vehicleArt = (v) => {
   return a ? { ...a, photoClass: "vehicle-photo" } : null;
 };
 
+// Pairs each spec value with a plain-language label: ["Mass", "100 kg"].
+const labelled = (labels, vals) => vals.map((v, i) => [labels[i] || "", v]);
+
 function renderSelectionSummary() {
   const chosen = [
     ["Mission", OBJ[S.obj]?.representativeMission || OBJ[S.obj]?.n],
@@ -99,7 +102,8 @@ export function render() {
     const card = opt(
       {
         n: o.representativeMission || o.n,
-        d: o.n,
+        kicker: o.n,
+        d: o.need,
         image: MISSION_ART[o.id]?.src,
         imageAlt: MISSION_ART[o.id]?.alt,
       },
@@ -114,7 +118,7 @@ export function render() {
         if (recommendedOrbit >= 0) S.orb = recommendedOrbit;
         render();
       },
-      o.sourceTags || [],
+      labelled(["Budget", "Lifespan", "Orbit"], o.sourceTags || []),
       false,
       "",
     );
@@ -128,7 +132,7 @@ export function render() {
     ORB,
     (i) => i == S.orb,
     (i) => (S.orb = i),
-    (o) => [o.alt, "period " + o.per],
+    (o) => [["Altitude", o.alt], ["Period", o.per]],
   );
   fill(
     "g-veh",
@@ -138,14 +142,17 @@ export function render() {
     (o) => {
       const cap = o.cap[ORB[S.orb].id];
       return [
-        o.costRange || "$" + o.cost + "M",
-        cap == null
-          ? (o.transferCap?.gto && ORB[S.orb].id === "geo"
-              ? "GTO: " + o.transferCap.gto.toLocaleString() + " kg · GEO n/a"
-              : "payload performance not supplied")
-          : cap
-            ? "to orbit: " + cap.toLocaleString() + " kg"
-            : "not available for this orbit",
+        ["Price", (o.costRange || "$" + o.cost + "M").replace(/ per launch$/, "")],
+        [
+          "Payload",
+          cap == null
+            ? o.transferCap?.gto && ORB[S.orb].id === "geo"
+              ? "GTO " + o.transferCap.gto.toLocaleString() + " kg · GEO n/a"
+              : "not supplied"
+            : cap
+              ? cap.toLocaleString() + " kg"
+              : "not available",
+        ],
       ];
     },
     (o) => o.cap[ORB[S.orb].id] === 0,
@@ -156,26 +163,33 @@ export function render() {
     BUS,
     (i) => i == S.bus,
     (i) => (S.bus = i),
-    (o) => o.sourceTags || [
-      o.mass + " kg",
-      "$" + o.cost + "M",
-      o.load + " W load",
-      o.life + " mo life",
-    ],
+    (o) =>
+      labelled(
+        ["Mass", "Cost", "Power", "Life"],
+        o.sourceTags || [o.mass + " kg", "$" + o.cost + "M", o.load + " W", o.life + " mo"],
+      ),
   );
   fill(
     "g-pow",
     POW,
     (i) => i == S.pow,
     (i) => (S.pow = i),
-    (o) => o.sourceTags || [o.mass + " kg", o.gen + " W", "$" + o.cost + "M"],
+    (o) =>
+      labelled(
+        ["Mass", "Cost", "Output"],
+        o.sourceTags || [o.mass + " kg", "$" + o.cost + "M", o.gen + " W"],
+      ),
   );
   fill(
     "g-com",
     COM,
     (i) => i == S.com,
     (i) => (S.com = i),
-    (o) => o.sourceTags || [o.mass + " kg", o.pow + " W", o.rate + " Mbps", "$" + o.cost + "M"],
+    (o) =>
+      labelled(
+        ["Mass", "Power", "Data rate", "Cost"],
+        o.sourceTags || [o.mass + " kg", o.pow + " W", o.rate + " Mbps", "$" + o.cost + "M"],
+      ),
   );
   fill(
     "g-ins",
@@ -183,13 +197,11 @@ export function render() {
     (i) => S.ins.has(i),
     (i) => (S.ins.has(i) ? S.ins.delete(i) : S.ins.add(i)),
     (o) => [
-      ...(o.sourceTags || [
-        o.mass + " kg",
-        o.pow + " W",
-        "$" + o.cost + "M",
-        o.data + " Gb/d",
-      ]),
-      "★" + o.sci,
+      ...labelled(
+        ["Mass", "Power", "Cost", "Data"],
+        o.sourceTags || [o.mass + " kg", o.pow + " W", "$" + o.cost + "M", o.data + " Gb/day"],
+      ),
+      ["Science", "★" + o.sci],
     ],
   );
   fill(
@@ -197,21 +209,34 @@ export function render() {
     GND,
     (i) => i == S.gnd,
     (i) => (S.gnd = i),
-    (o) => o.sourceTags || ["$" + o.cost + "M", "≈" + o.h + " h/day"],
+    (o) =>
+      labelled(
+        ["Cost", "Contact"],
+        o.sourceTags || ["$" + o.cost + "M", "≈" + o.h + " h/day"],
+      ),
   );
   fill(
     "g-ctl",
     CTL,
     (i) => i == S.ctl,
     (i) => (S.ctl = i),
-    (o) => o.sourceTags || ["$" + o.cost + "M", "reliability " + (o.rel * 100).toFixed(o.rel % 1 ? 2 : 0) + "%"],
+    (o) =>
+      labelled(
+        ["Cost", "Reliability"],
+        (o.sourceTags || ["$" + o.cost + "M", (o.rel * 100).toFixed(o.rel % 1 ? 2 : 0) + "%"]).map(
+          (t) => t.replace(/ reliability$/, ""),
+        ),
+      ),
   );
   fill(
     "g-usr",
     USR,
     (i) => i == S.usr,
     (i) => (S.usr = i),
-    (o) => [...(o.sourceTags || ["$" + o.cost + "M", o.users]), "impact ×" + o.mult],
+    (o) => [
+      ...labelled(["Cost", "Users"], (o.sourceTags || ["$" + o.cost + "M", o.users]).map((t) => t.replace(/ users$/, ""))),
+      ["Score", "×" + o.mult],
+    ],
   );
   hud();
   renderSelectionSummary();

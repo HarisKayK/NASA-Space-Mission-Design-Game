@@ -30,7 +30,7 @@ export function opt(item, sel, fn, tags, off, svg) {
     : svg
       ? `<div class="ico">${svg}</div>`
       : "";
-  const body = `<h3>${item.n}</h3>${item.d ? `<p>${item.d}</p>` : ""}<div class="tags mono">${tags.map((t) => `<span>${t}</span>`).join("")}</div>`;
+  const body = `${item.kicker ? `<div class="kicker">${item.kicker}</div>` : ""}<h3>${item.n}</h3>${item.d ? `<p>${item.d}</p>` : ""}<div class="tags mono${tags.some(Array.isArray) ? " specs" : ""}">${tags.map((t) => (Array.isArray(t) ? `<span><i class="tl">${t[0]}</i> ${t[1]}</span>` : `<span>${t}</span>`)).join("")}</div>`;
   // Side-by-side cards (e.g. launch vehicles) keep their text in one column.
   b.innerHTML = item.image && photoClass === "vehicle-photo"
     ? `${artwork}<div class="opt-body">${body}</div>`
@@ -44,7 +44,7 @@ export function fill(id, arr, isSel, fn, tagf, offf, artf) {
   const g = $(id);
   g.innerHTML = "";
   const k = KIND[id],
-    showD = k == "obj" || k == "orb";
+    showD = true;
   arr.forEach((x, i) => {
     const art = artf && artf(x);
     g.appendChild(

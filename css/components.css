@@ -150,15 +150,25 @@ nav button.on {
 }
 
 .btn {
-  background: linear-gradient(90deg, var(--acc), var(--acc2));
-  color: #05070f;
-  border: 0;
-  border-radius: 10px;
-  padding: 10px 20px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 22px;
   font:
-    600 0.95rem Inter,
+    500 0.95rem Inter,
     sans-serif;
   cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  background: rgba(94, 161, 255, 0.15);
+  border-color: var(--acc);
+  outline: none;
 }
 
 .chk {
@@ -551,10 +561,6 @@ nav button.on {
 .btn-replay {
   padding: 7px 11px;
   font-size: 0.75rem;
-}
-.btn-replay.finished {
-  border-color: var(--ok);
-  color: var(--ok);
 }
 .timeline-step {
   transition:
@@ -1037,6 +1043,7 @@ nav button.on {
 }
 .opt.vehicle-choice {
   display: flex;
+  flex-direction: row;
   min-width: 0;
   align-items: stretch;
   gap: 14px;
@@ -1086,4 +1093,69 @@ nav button.on {
 }
 @media (prefers-reduced-motion: reduce) {
   .opt.vehicle-choice .vehicle-photo img { transition: none; transform: none !important; }
+}
+
+/* Card text order: kicker (category) > title > one-line description > specs. */
+.opt {
+  display: flex;
+  flex-direction: column;
+}
+.opt .kicker {
+  margin-bottom: 4px;
+  color: var(--acc);
+  font: 600 0.64rem "JetBrains Mono", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.opt p {
+  margin: 0 0 10px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+.opt .tags {
+  margin-top: auto;
+}
+.opt.vehicle-choice .opt-body p {
+  margin: 0;
+}
+.opt.vehicle-choice .opt-body .tags {
+  margin-top: 2px;
+}
+
+/* Labelled specs: dim label, bright value. */
+.tags .tl {
+  margin-right: 0.15em;
+  color: var(--dim);
+  font-style: normal;
+}
+.tags .tl::after {
+  content: ":";
+}
+
+/* Spec list: one label/value row per spec. */
+.tags.specs {
+  display: grid;
+  width: 100%;
+  gap: 0;
+  font-size: 0.72rem;
+}
+.tags.specs span {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  padding: 5px 0;
+  border-radius: 0;
+  background: none;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+}
+.tags.specs span:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.tags.specs .tl {
+  flex: none;
+  margin: 0;
+  text-align: left;
 }
