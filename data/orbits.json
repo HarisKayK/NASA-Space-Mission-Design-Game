@@ -6,9 +6,7 @@
     "d": "Close views, short passes.",
     "alt": "≈500 km",
     "per": "95 min",
-    "life": 0.8,
-    "cf": 1,
-    "ref": "Period calculated from orbital physics."
+    "life": 0.8
   },
   {
     "id": "sso",
@@ -17,9 +15,7 @@
     "d": "Steady lighting, global coverage.",
     "alt": "705 km",
     "per": "99 min",
-    "life": 1,
-    "cf": 1,
-    "ref": "Landsat 9: 705 km, 98.2° inclination, 99-minute period."
+    "life": 1
   },
   {
     "id": "geo",
@@ -28,9 +24,7 @@
     "d": "Fixed over one spot.",
     "alt": "35,786 km",
     "per": "24 h",
-    "life": 1,
-    "cf": 8,
-    "ref": "GOES weather satellites. Rockets reach it through a transfer orbit (GTO)."
+    "life": 1
   },
   {
     "id": "moon",
@@ -39,8 +33,15 @@
     "d": "Hidden behind the Moon at times.",
     "alt": "≈50 km",
     "per": "113 min",
-    "life": 0.9,
-    "cf": 2,
-    "ref": "LRO’s mapping orbit was ~50 km above the Moon."
+    "life": 0.9
+  },
+  {
+    "id": "helio",
+    "n": "Heliocentric orbit",
+    "use": "A Sun-centred, highly elliptical trajectory. Parker Solar Probe repeatedly approaches the Sun, reaching a perihelion of about 6.1 million km. The exact orbit changes over the mission.",
+    "d": "Sun-centred, highly elliptical trajectory.",
+    "alt": "Variable · perihelion ≈6.1M km",
+    "per": "88 days–7 years",
+    "life": 1
   }
 ]

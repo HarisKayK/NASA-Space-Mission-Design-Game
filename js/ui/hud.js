@@ -9,9 +9,10 @@ export function hud() {
   $("hud").innerHTML =
     res(
       "Mass",
-      `${c.mass} / ${c.cap} kg`,
-      (c.mass / Math.max(c.cap, 1)) * 100,
-      c.mass > c.cap,
+      c.cap == null ? `${c.mass.toLocaleString()} kg · capacity n/a` : `${c.mass.toLocaleString()} / ${c.cap.toLocaleString()} kg`,
+      c.cap == null ? 0 : (c.mass / Math.max(c.cap, 1)) * 100,
+      c.cap != null && c.mass > c.cap,
+      c.cap == null,
     ) +
     res(
       "Power",

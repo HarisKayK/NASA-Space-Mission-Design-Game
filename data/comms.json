@@ -3,30 +3,45 @@
     "n": "S-band low-rate antenna",
     "use": "A simple, light radio. It is fine for commands and small amounts of data, but too slow for lots of pictures.",
     "d": "Simple and light, but slow.",
-    "mass": 5,
-    "cost": 5,
-    "pow": 20,
-    "rate": 2,
-    "ref": "≈ 2 Mbps (estimated)."
+    "mass": 2.25,
+    "cost": 0.35,
+    "pow": 15,
+    "rate": 0.256,
+    "sourceTags": [
+      "1.5–3 kg",
+      "10–20 W",
+      "0.256 Mbps",
+      "$0.2M–$0.5M"
+    ]
   },
   {
     "n": "Ka-band high-gain antenna",
     "use": "A fast radio link with a dish. It sends much more data, but needs more power.",
     "d": "Fast downlink, needs more power.",
-    "mass": 40,
-    "cost": 25,
-    "pow": 100,
-    "rate": 100,
-    "ref": "LRO: 100 Mbps Ka-band downlink. GOES-R also sends up to 100 Mbps."
+    "mass": 11.5,
+    "cost": 3.5,
+    "pow": 35,
+    "rate": 300,
+    "sourceTags": [
+      "8–15 kg",
+      "30–40 W",
+      "100–300+ Mbps",
+      "$2M–$5M"
+    ]
   },
   {
     "n": "X-band dual-channel downlink",
     "use": "Two fast channels for huge image volumes, like Landsat 8 uses. It needs the most power and mass.",
     "d": "Very fast, for big imaging data volumes.",
-    "mass": 50,
-    "cost": 35,
-    "pow": 150,
-    "rate": 384,
-    "ref": "Landsat 8: 384 Mbps X-band over two channels. Mass, power, cost ≈ estimated."
+    "mass": 5.5,
+    "cost": 1.75,
+    "pow": 37.5,
+    "rate": 150,
+    "sourceTags": [
+      "4–7 kg",
+      "25–50 W",
+      "15–150 Mbps",
+      "$1M–$2.5M"
+    ]
   }
 ]

@@ -1,63 +1,39 @@
-# Mission Control · Space Mission Design Game
+# Nebula Nomads · Space Mission Design Game
 
-Design a NASA-style science mission: pick an objective, choose the launch, space, ground and user segments, then run a design-dependent mission playback.
+Pick one of four reference missions, design its launch, spacecraft, ground and user segments, then run a mission playback and score.
 
 ## Run it
 
-The game loads its data from JSON files, so open it through a small local web server (double-clicking `index.html` will not work):
+The game loads its data from JSON, so serve the folder instead of double-clicking `index.html`:
 
 ```bash
 python3 -m http.server 8000
-# then open http://localhost:8000
+# open http://localhost:8000
 ```
 
 ## Folder layout
 
 ```
-index.html          page markup
-css/
-  base.css          colour variables, reset, typography, page layout
-  components.css    cards, HUD, tabs, option cards, buttons, checks
-  illustrations.css SVG pictures and animations
-  info-panel.css    hover panel next to the cards
-data/               all game content (edit these to change the game)
-  objectives.json   mission goals: budget, months, suitable orbits, need and goals
-  orbits.json  vehicles.json  buses.json  power.json  comms.json
-  instruments.json  ground.json  control.json  users.json
-  segments.json     the four mission segments
-  missions.json     "real missions to study" links
-  tips.json         tip shown under each tab
+index.html        page markup
+css/              base, components, illustrations, info-panel styles
+data/             all game content (one JSON list per catalogue)
+Images/           mission and launch-vehicle photos
 js/
-  main.js           entry point: loads data, wires up the page
-  data.js           loads the JSON files
-  state.js          current choices (S), tab names, helpers
-  calc.js           game rules: mass, power, cost, data, lifetime, requirements
-  icons.js          all the SVG illustrations
-  ui/
-    render.js       redraws the page      cards.js     option cards
-    hud.js          top meters
-    briefing.js     need, ConOps, requirements, missions
-    simulate.js     "Launch mission" results
-    infopanel.js    hover info and fit verdicts
-    timeline.js     mission phases, outcomes and design-driven incidents
-    starfield.js    animated background
+  main.js         entry point
+  data.js         loads the JSON files
+  state.js        current choices and helpers
+  calc.js         game rules: mass, power, cost, data, lifetime
+  icons.js        SVG illustrations
+  ui/             render, cards, hud, infopanel, simulate, timeline, starfield
 ```
 
 ## Editing the data
 
-- Each `data/*.json` file is a list. Add an item by copying an existing one.
-- **Order matters for pictures.** `js/icons.js` picks each card's illustration by its position in the list, so a new item needs a new picture added there at the same position.
-- Objectives list their suitable orbits in `"orbits"` (ids from `orbits.json`).
-- Instruments say which objectives they suit in `"fit"` (objective ids).
-- Numbers marked `≈` in `"ref"` are estimates or game simplifications.
+- Each `data/*.json` file is a list; add an item by copying an existing one.
+- Objectives list their suitable orbits in `"orbits"` and instruments list the objectives they suit in `"fit"`.
+- Mission photos are mapped in `MISSION_ART` and vehicle photos in `VEHICLE_ART`, both in `js/ui/render.js`.
+- `reference-data.json` keeps the original supplied dataset for provenance; the game does not read it.
 
-## Mission playback
+## Notes
 
-The Simulate tab now includes a rule-based mission timeline: launch and separation, orbit insertion, commissioning, science operations, downlink, and end-of-mission review. The selected design determines which phases are nominal, degraded, failed, or blocked, and the game lists practical issues to resolve. This is an educational systems-level playback, not a high-fidelity orbital, thermal, or communications simulation.
-
-
-## NASA live imagery integration
-
-The Earth observation objective includes a live global browse image from NASA's Global Imagery Browse Services (GIBS): MODIS Terra Corrected Reflectance True Color. The app requests the selected observation date through the public GIBS WMS GetMap endpoint. If that date is not available yet, it automatically checks up to seven earlier dates and reports the actual date shown. No API key is required for this public visualization service.
-
-This is processed browse imagery for educational context, not raw MODIS measurements or a substitute for calibrated scientific analysis. NASA GIBS API documentation: https://nasa-gibs.github.io/gibs-api-docs/access-basics/ . NASA Worldview: https://worldview.earthdata.nasa.gov/ .
+Values come from the supplied reference dataset and are planning-level, educational figures, not engineering analysis. Range values use a midpoint, annual operating costs scale with mission length, and instrument stars and score multipliers are game mechanics.

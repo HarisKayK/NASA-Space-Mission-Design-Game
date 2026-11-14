@@ -3,24 +3,36 @@
     "n": "Single university station",
     "use": "One antenna. It sees the spacecraft only briefly each orbit, so little data comes home. It is cheap.",
     "d": "One antenna sees the spacecraft briefly each orbit.",
-    "cost": 10,
-    "h": 1,
-    "ref": "≈ 1 h/day."
+    "cost": 0.1,
+    "h": 0.5,
+    "annual": true,
+    "sourceTags": [
+      "$50k–$150k / yr",
+      "20–40 min/day"
+    ]
   },
   {
     "n": "Regional ground network",
     "use": "Several stations spread out, so you can talk to the spacecraft for more of each day.",
     "d": "Several stations for steady contact.",
-    "cost": 60,
+    "cost": 1.25,
     "h": 3,
-    "ref": "≈ 3 h/day."
+    "annual": true,
+    "sourceTags": [
+      "$0.5M–$2M / yr",
+      "2–4 h/day"
+    ]
   },
   {
     "n": "Relay satellite network",
     "use": "Relay satellites pass data along, giving near-constant contact. It costs the most.",
     "d": "Relay satellites for near-continuous contact.",
-    "cost": 150,
-    "h": 8,
-    "ref": "Like NASA’s Near Space Network. ≈ 8 h/day."
+    "cost": 5,
+    "h": 24,
+    "annual": true,
+    "sourceTags": [
+      "Multi-million contract",
+      "95–99% uptime"
+    ]
   }
 ]

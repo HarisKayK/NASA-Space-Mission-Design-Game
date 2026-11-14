@@ -84,6 +84,7 @@ export const ICON = {
       sso: earth(60, 36, 14) + orbit(9, 31, 14, 7),
       geo: earth(60, 36, 8) + orbit(52, 18, -8, 18, "3 3"),
       moon: moon(60, 36, 14) + orbit(28, 10, -14, 9),
+      helio: SUNI,
     })[o.id],
   veh: (v, i) =>
     pad +

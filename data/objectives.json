@@ -10,9 +10,20 @@
       "Cover the whole globe regularly",
       "Share the data freely"
     ],
-    "orbits": ["sso", "leo"],
-    "budget": 1000,
-    "months": 60
+    "orbits": [
+      "sso"
+    ],
+    "budget": 1200,
+    "months": 60,
+    "budgetRange": "$500M–$1.2B",
+    "lifeSpan": "5–10 years",
+    "representativeMission": "Landsat 9",
+    "orbitDetails": "Sun-synchronous orbit · 705 km · 99-minute period",
+    "sourceTags": [
+      "$500M–$1.2B",
+      "5–10 yr",
+      "SSO · 705 km"
+    ]
   },
   {
     "id": "moon",
@@ -25,9 +36,20 @@
       "Take sharp surface images",
       "Measure radiation near the Moon"
     ],
-    "orbits": ["moon"],
-    "budget": 700,
-    "months": 12
+    "orbits": [
+      "moon"
+    ],
+    "budget": 504,
+    "months": 12,
+    "budgetRange": "$504M",
+    "lifeSpan": "1–7+ years",
+    "representativeMission": "Lunar Reconnaissance Orbiter (LRO)",
+    "orbitDetails": "Lunar polar orbit · 50 km circular · 113-minute period",
+    "sourceTags": [
+      "$504M",
+      "1–7+ yr",
+      "Lunar polar · 50 km"
+    ]
   },
   {
     "id": "weather",
@@ -40,23 +62,45 @@
       "Image the whole disk often",
       "Watch the Sun’s activity too"
     ],
-    "orbits": ["geo"],
-    "budget": 1300,
-    "months": 120
+    "orbits": [
+      "geo"
+    ],
+    "budget": 1500,
+    "months": 180,
+    "budgetRange": "$1B–$1.5B",
+    "lifeSpan": "15 years",
+    "representativeMission": "GOES-R Series",
+    "orbitDetails": "Geostationary orbit · 35,786 km · 24-hour sidereal period",
+    "sourceTags": [
+      "$1B–$1.5B",
+      "15 yr",
+      "GEO · 35,786 km"
+    ]
   },
   {
     "id": "solar",
     "n": "Solar science",
-    "d": "PUNCH style Sun corona imaging.",
+    "d": "Parker Solar Probe-style heliocentric solar science.",
     "disc": "Heliophysics",
-    "need": "Learn how the Sun’s outer atmosphere becomes the solar wind that fills the solar system.",
+    "need": "Study the Sun’s corona and solar wind to understand how solar activity shapes the space environment.",
     "goals": [
       "Image the Sun’s corona",
       "Keep the lighting steady",
       "Send the images to scientists"
     ],
-    "orbits": ["sso"],
-    "budget": 400,
-    "months": 24
+    "orbits": [
+      "helio"
+    ],
+    "budget": 1500,
+    "months": 84,
+    "budgetRange": "$750M–$1.5B",
+    "lifeSpan": "7 years",
+    "representativeMission": "Parker Solar Probe",
+    "orbitDetails": "Heliocentric, highly elliptical · perihelion ≈6.1 million km · 88-day to 7-year period",
+    "sourceTags": [
+      "$750M–$1.5B",
+      "7 yr",
+      "Heliocentric"
+    ]
   }
 ]

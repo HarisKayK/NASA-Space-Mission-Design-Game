@@ -3,14 +3,24 @@
     "n": "Part-time operations team",
     "use": "A small team that works set hours. It is cheap, but slow to react when something goes wrong.",
     "d": "Cheap, but slow to react when problems appear.",
-    "cost": 20,
-    "rel": 0.85
+    "cost": 2,
+    "rel": 0.95,
+    "annual": true,
+    "sourceTags": [
+      "$1M–$3M / yr",
+      "95% reliability"
+    ]
   },
   {
     "n": "24/7 mission control",
     "use": "A team that is always on watch and fixes problems quickly. NASA teams stay on console during key operations in case of problems.",
     "d": "Always watching, quick fixes; costs more.",
-    "cost": 60,
-    "rel": 1
+    "cost": 16.5,
+    "rel": 0.9999,
+    "annual": true,
+    "sourceTags": [
+      "$8M–$25M+ / yr",
+      "99.99% reliability"
+    ]
   }
 ]

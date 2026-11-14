@@ -3,36 +3,52 @@
     "n": "Small solar array",
     "use": "Small solar panels. Light and cheap, but they make little power.",
     "d": "Enough for a small satellite.",
-    "mass": 30,
-    "cost": 15,
-    "gen": 300,
-    "ref": "≈ estimated."
+    "mass": 2.75,
+    "cost": 0.0375,
+    "gen": 75,
+    "sourceTags": [
+      "1.5–4 kg",
+      "$15k–$60k",
+      "30–120 W"
+    ]
   },
   {
     "n": "LRO-class solar array",
     "use": "Medium panels. Enough power for a few instruments on a science orbiter.",
     "d": "Typical science orbiter.",
-    "mass": 80,
-    "cost": 40,
-    "gen": 685,
-    "ref": "LRO’s spacecraft power was ~685 W."
+    "mass": 35,
+    "cost": 3,
+    "gen": 1500,
+    "sourceTags": [
+      "~35 kg",
+      "$2M–$4M",
+      "up to 1,500 W peak"
+    ]
   },
   {
     "n": "Landsat-class solar array",
     "use": "Large panels for power-hungry imagers.",
     "d": "Large array for power-hungry imagers.",
-    "mass": 300,
-    "cost": 90,
-    "gen": 3750,
-    "ref": "Landsat 8: 9 × 0.4 m array, 3,750 W at end of mission."
+    "mass": 85,
+    "cost": 11.5,
+    "gen": 2200,
+    "sourceTags": [
+      "70–100 kg",
+      "$8M–$15M",
+      "~2,200 W"
+    ]
   },
   {
     "n": "GOES-R-class solar array",
     "use": "The largest panels here, made for big geostationary satellites.",
     "d": "Largest option for big geostationary satellites.",
-    "mass": 350,
-    "cost": 100,
-    "gen": 4000,
-    "ref": "GOES-R: more than 4,000 W at end of life."
+    "mass": 215,
+    "cost": 32.5,
+    "gen": 4750,
+    "sourceTags": [
+      "180–250 kg",
+      "$25M–$40M",
+      "4,500–5,000 W"
+    ]
   }
 ]

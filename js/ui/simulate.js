@@ -7,8 +7,8 @@ const names = ["Launch", "Space", "Ground", "User"];
 let playbackTimer = null;
 
 function renderMissionScene(result) {
-  return `<div class="mission-scene stage-0 ${result.launchOK ? "" : "launch-failed"}" id="mission-scene" aria-label="Animated illustration of the mission progressing from launch to data delivery">
-    <div class="scene-topline"><span>MISSION VISUALIZATION</span><span id="scene-phase">01 / 06 · LAUNCH</span><span class="scene-status" id="scene-status"></span></div>
+  return `<div class="mission-scene stage-0 ${result.launchOK === false ? "launch-failed" : ""}" id="mission-scene" aria-label="Animated illustration of the mission progressing from launch to data delivery">
+    <div class="scene-topline"><span id="scene-phase">01 / 06 · LAUNCH</span><span class="scene-status" id="scene-status"></span></div>
     <svg class="mission-art" viewBox="0 0 760 260" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
       <defs>
         <radialGradient id="earthGlow"><stop stop-color="#4f8cff" stop-opacity=".34"/><stop offset="1" stop-color="#4f8cff" stop-opacity="0"/></radialGradient>
@@ -34,7 +34,6 @@ function renderMissionScene(result) {
       <path class="data-beam" d="M465 111 Q550 90 624 170" fill="none" stroke="#68e0c0" stroke-width="3" stroke-dasharray="7 7"/>
       <g class="scene-stars" fill="#dce7ff"><circle cx="90" cy="55" r="2"/><circle cx="240" cy="35" r="1.5"/><circle cx="550" cy="52" r="2"/><circle cx="680" cy="92" r="1.5"/><circle cx="720" cy="35" r="2"/><circle cx="290" cy="145" r="1.5"/></g>
     </svg>
-    <div class="scene-caption" id="scene-caption">Vehicle ignition · ascent and stage separation</div>
     <div class="scene-progress" aria-hidden="true"><span id="scene-progress-fill"></span></div>
   </div>`;
 }
@@ -59,16 +58,17 @@ function showResults(rep, on) {
 }
 
 function renderReport(r) {
+  if (!r.hardFail.length && !r.noScience && !r.rows.some((x) => x.bonus || x.gain > 0)) return "";
   const lead = r.hardFail.length
     ? `<p class="report-lead bad">Your science score is 0 because ${r.hardFail.join(" and ")}. Fix that first. The points below show what each part is worth after that.</p>`
     : r.noScience
       ? `<p class="report-lead bad">No instruments were chosen, so there is no science.</p>`
-      : `<p class="report-lead">Your instruments are worth ${r.base} science points. Your other choices change that to ${r.sci}. Then ${r.eff} points are added for money left over.</p>`;
+      : `<p class="report-lead">${r.base === r.sci ? `Science ${r.sci}` : `Instruments ${r.base} → ${r.sci} after your other choices`}, plus ${r.eff} for money left over.</p>`;
   const rows = r.rows.length
-    ? r.rows.map((x) => `<div class="report-row"><b>${x.name}</b><span class="mono ${x.bonus ? "up" : "down"}">×${x.mult}</span><span>${x.bonus ? "Bonus for wide reach." : `${x.tip} <em>+${x.gain} points</em>`}</span></div>`).join("")
-    : `<div class="success-note">Nothing is holding your science score back.</div>`;
+    ? r.rows.filter((x) => x.bonus || x.gain > 0).map((x) => `<div class="report-row"><b>${x.name}</b><span class="mono ${x.bonus ? "up" : "down"}">×${x.mult}</span><span>${x.bonus ? "Bonus for wide reach." : `${x.tip} <em>+${x.gain} points</em>`}</span></div>`).join("")
+    : `""`;
   const best = r.rows.find((x) => x.gain > 0);
-  return `<h3 class="subh">Mission report</h3>${lead}${rows}${best ? `<p class="report-next"><b>Best next fix:</b> ${best.tip} (+${best.gain} points)</p>` : ""}${r.rows.length && r.full.length ? `<p class="sub">Working well: ${r.full.join(", ")}.</p>` : ""}`;
+  return `<h3 class="subh">Mission report</h3>${lead}${rows}${best ? `<p class="report-next"><b>Best next fix:</b> ${best.tip} (+${best.gain} points)</p>` : ""}`;
 }
 
 function startPlayback(result, rep) {
@@ -77,7 +77,6 @@ function startPlayback(result, rep) {
   const steps = [...document.querySelectorAll(".timeline-step")];
   const phaseLabel = $("scene-phase");
   const status = $("scene-status");
-  const caption = $("scene-caption");
   const fill = $("scene-progress-fill");
   const replay = $("replay-mission");
   if (!scene || !steps.length) return showResults(rep, true);
@@ -85,9 +84,8 @@ function startPlayback(result, rep) {
   let current = 0;
   const paint = () => {
     const st = result.phases[current].status;
-    scene.className = `mission-scene stage-${current} status-${st}${result.launchOK ? "" : " launch-failed"}`;
+    scene.className = `mission-scene stage-${current} status-${st}${result.launchOK === false ? " launch-failed" : ""}`;
     phaseLabel.textContent = sceneStages[current][0];
-    caption.textContent = sceneStages[current][1];
     status.textContent = statusLabel[st];
     status.className = `scene-status ${st}`;
     fill.style.width = `${((current + 1) / sceneStages.length) * 100}%`;
@@ -129,23 +127,25 @@ function renderTimeline(result) {
   const icon = { success: "✓", warning: "!", failed: "×", blocked: "—" };
   const label = { success: "Nominal", warning: "Degraded", failed: "Failed", blocked: "Blocked" };
   return `<section class="mission-playback">
-    <div class="playback-head"><div><div class="sub">Mission playback</div><h3>Mission sequence</h3></div><span class="mission-state ${result.complete ? "good" : "caution"}">${result.complete ? "MISSION SUCCESS" : result.launchOK ? "PARTIAL SUCCESS" : "LAUNCH FAILED"}</span></div>
-    <p class="playback-intro">Illustrative animation · outcomes calculated from your design.</p>
+    <div class="playback-head"><h3>Mission sequence</h3><span class="mission-state ${result.complete ? "good" : "caution"}">${result.complete ? "MISSION SUCCESS" : result.launchOK === false ? "LAUNCH FAILED" : result.launchOK === null ? "LAUNCH UNVERIFIED" : "PARTIAL SUCCESS"}</span></div>
     ${renderMissionScene(result)}
-    <div class="playback-controls"><span class="playback-hint">Auto-play</span><button class="btn btn-replay" id="skip-mission" type="button">Skip to results ▸</button><button class="btn btn-replay" id="replay-mission" type="button">↻ Replay sequence</button></div>
+    <div class="playback-controls"><button class="btn btn-replay" id="skip-mission" type="button">Skip to results ▸</button><button class="btn btn-replay" id="replay-mission" type="button">↻ Replay sequence</button></div>
     <ol class="timeline">${result.phases.map((p, i) => `<li class="timeline-step ${p.status}"><div class="timeline-marker">${icon[p.status]}</div><div class="timeline-content"><div class="timeline-top"><b>${i + 1}. ${p.name}</b><span class="timeline-time">${p.time}</span></div><div class="timeline-status ${p.status}">${label[p.status]}</div><p>${p.detail}</p></div></li>`).join("")}</ol>
-    ${result.incidents.length ? `<div class="incident-panel"><h3>Issues to resolve</h3><div class="incident-list">${result.incidents.map(([title, fix]) => `<div class="incident"><b>${title}</b><p>${fix}</p></div>`).join("")}</div></div>` : `<div class="success-note">All modeled checks pass. Your next step is to review the mission's scientific results and assumptions.</div>`}
+    ${result.incidents.length ? `<div class="incident-panel"><h3>Issues to resolve</h3><div class="incident-list">${result.incidents.map(([title, fix]) => `<div class="incident"><b>${title}</b><p>${fix}</p></div>`).join("")}</div></div>` : ""}
   </section>`;
 }
 
 export function simulate() {
   const c = calc(), checks = [];
   const add = (ok, t) => checks.push(`<div class="chk ${ok ? "ok" : "bad"}">${ok ? "✓" : "✗"} ${t}</div>`);
-  add(c.mass <= c.cap, c.mass <= c.cap ? `Launch: ${c.mass.toLocaleString()} of ${c.cap.toLocaleString()} kg.` : `Launch failed: ${c.mass.toLocaleString()} kg exceeds the ${c.cap.toLocaleString()} kg limit.`);
+  if (c.cap == null)
+    checks.push(`<div class="chk warn">? Launch: ${c.launchCapacityNote} The ${c.mass.toLocaleString()} kg mass check is unverified.</div>`);
+  else
+    add(c.mass <= c.cap, c.mass <= c.cap ? `Launch: ${c.mass.toLocaleString()} of ${c.cap.toLocaleString()} kg.` : `Launch failed: ${c.mass.toLocaleString()} kg exceeds the ${c.cap.toLocaleString()} kg limit.`);
   add(c.powUse <= c.gen, c.powUse <= c.gen ? "Power: enough for all systems." : `Power short: need ${c.powUse} W, have ${c.gen} W.`);
   add(c.misfit == 0, c.misfit == 0 ? "Payload: suits the objective." : `Payload: ${c.misfit} instrument(s) don’t suit the objective (30% value).`);
   add(c.data <= c.down, c.data <= c.down ? `Data: all ${c.data} Gb/day returned.` : `Data loss: ${c.data} Gb/day collected, ${c.down} sent.`);
-  add(c.k.rel >= 1, c.k.rel >= 1 ? "Control: fast fixes." : "Control: part-time team lowers reliability.");
+  add(c.k.rel >= 0.99, c.k.rel >= 0.99 ? `Control: ${Number((c.k.rel * 100).toFixed(2))}% reliability.` : `Control: ${Math.round(c.k.rel * 100)}% reliability; response is reduced.`);
   add(c.u.mult >= 1, c.u.mult >= 1 ? `Users: ${c.u.users.replace(" users", "")} reached.` : "Users: limited reach.");
   add(c.orbOK, c.orbOK ? "Orbit suits the objective." : "Orbit doesn’t suit the objective.");
   add(c.life >= c.months, c.life >= c.months ? `Lifetime: ${c.life} of ${c.months} mo.` : `Lifetime too short: ${c.life} of ${c.months} mo.`);

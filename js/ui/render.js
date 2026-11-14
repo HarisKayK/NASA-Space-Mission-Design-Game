@@ -11,19 +11,63 @@ import {
   GND,
   CTL,
   USR,
-  SEGS,
   MAP,
 } from "../data.js";
 import { calc } from "../calc.js";
-import { ICON, sv } from "../icons.js";
 import { fill, opt } from "./cards.js";
 import { hud } from "./hud.js";
-import { renderBriefing } from "./briefing.js";
 
+const MISSION_ART = {
+  earth: {
+    src: "Images/Missions/earth-observation.jpg",
+    alt: "Earth viewed from space, showing the curved horizon and land surface",
+  },
+  moon: {
+    src: "Images/Missions/lunar-science-wide.jpg",
+    alt: "The Moon viewed from space, with its cratered surface visible",
+  },
+  weather: {
+    src: "Images/Missions/weather-monitoring.jpg",
+    alt: "A large weather system over Earth viewed from orbit",
+  },
+  solar: {
+    src: "Images/Missions/solar-science-wide.jpg",
+    alt: "A close view of the Sun and its active surface",
+  },
+};
+
+// Launch vehicle photos, matched by the vehicle's name in data/vehicles.json.
+// `pos` keeps the rocket centred when the tall photo is cropped to its frame.
+const VEHICLE_ART = {
+  "Rocket Lab Electron": {
+    src: "Images/Launch_Vehicles/Rocket-lab-electron.jpg",
+    alt: "Rocket Lab Electron on its launch pad beside the ocean",
+    pos: "51% 50%",
+  },
+  "ULA Atlas V 401": {
+    src: "Images/Launch_Vehicles/ULA-Atlas-V-401.jpg",
+    alt: "Atlas V payload fairing carrying Landsat 9, inside the launch facility",
+    pos: "54% 40%",
+  },
+  "SpaceX Falcon 9": {
+    src: "Images/Launch_Vehicles/SpaceX-falcon-9.jpg",
+    alt: "SpaceX Falcon 9 standing on the launch pad",
+    pos: "52% 50%",
+  },
+  "SpaceX Falcon Heavy": {
+    src: "Images/Launch_Vehicles/SpaceX-falcon-heavy.jpg",
+    alt: "SpaceX Falcon Heavy with its two side boosters on the launch pad",
+    pos: "52% 50%",
+  },
+};
+const vehicleArt = (v) => {
+  const a = VEHICLE_ART[v.n];
+  return a ? { ...a, photoClass: "vehicle-photo" } : null;
+};
 
 function renderSelectionSummary() {
   const chosen = [
-    ["Objective", OBJ[S.obj]?.n],
+    ["Mission", OBJ[S.obj]?.representativeMission || OBJ[S.obj]?.n],
     ["Orbit", ORB[S.orb]?.n],
     ["Launch vehicle", VEH[S.veh]?.n],
     ["Spacecraft bus", BUS[S.bus]?.n],
@@ -49,18 +93,36 @@ export function render() {
   document
     .querySelectorAll(".panel")
     .forEach((p, i) => p.classList.toggle("on", i == S.tab));
-  fill(
-    "g-obj",
-    OBJ,
-    (i) => i == S.obj,
-    (i) => (S.obj = i),
-    (o) => [
-      `$${o.budget}M`,
-      `${o.months} mo`,
-      "orbit: " + MAP[o.id].join("/"),
-      o.disc,
-    ],
-  );
+  const missionGrid = $("g-obj");
+  missionGrid.innerHTML = "";
+  OBJ.forEach((o, i) => {
+    const card = opt(
+      {
+        n: o.representativeMission || o.n,
+        d: o.n,
+        image: MISSION_ART[o.id]?.src,
+        imageAlt: MISSION_ART[o.id]?.alt,
+      },
+      i === S.obj,
+      () => {
+        S.obj = i;
+        // A mission selection starts with the first orbit listed as suitable
+        // for that mission. The Launch step can still change it afterwards.
+        const recommendedOrbit = ORB.findIndex((orbit) =>
+          MAP[o.id]?.includes(orbit.id),
+        );
+        if (recommendedOrbit >= 0) S.orb = recommendedOrbit;
+        render();
+      },
+      o.sourceTags || [],
+      false,
+      "",
+    );
+    card.classList.add("mission-choice");
+    card.classList.add(`mission-choice-${o.id}`);
+    card.setAttribute("aria-pressed", String(i === S.obj));
+    missionGrid.appendChild(card);
+  });
   fill(
     "g-orb",
     ORB,
@@ -73,18 +135,28 @@ export function render() {
     VEH,
     (i) => i == S.veh,
     (i) => (S.veh = i),
-    (o) => [
-      "$" + o.cost + "M",
-      "to orbit: " + (o.cap[ORB[S.orb].id] || 0).toLocaleString() + " kg",
-    ],
-    (o) => !o.cap[ORB[S.orb].id],
+    (o) => {
+      const cap = o.cap[ORB[S.orb].id];
+      return [
+        o.costRange || "$" + o.cost + "M",
+        cap == null
+          ? (o.transferCap?.gto && ORB[S.orb].id === "geo"
+              ? "GTO: " + o.transferCap.gto.toLocaleString() + " kg · GEO n/a"
+              : "payload performance not supplied")
+          : cap
+            ? "to orbit: " + cap.toLocaleString() + " kg"
+            : "not available for this orbit",
+      ];
+    },
+    (o) => o.cap[ORB[S.orb].id] === 0,
+    vehicleArt,
   );
   fill(
     "g-bus",
     BUS,
     (i) => i == S.bus,
     (i) => (S.bus = i),
-    (o) => [
+    (o) => o.sourceTags || [
       o.mass + " kg",
       "$" + o.cost + "M",
       o.load + " W load",
@@ -96,14 +168,14 @@ export function render() {
     POW,
     (i) => i == S.pow,
     (i) => (S.pow = i),
-    (o) => [o.mass + " kg", o.gen + " W", "$" + o.cost + "M"],
+    (o) => o.sourceTags || [o.mass + " kg", o.gen + " W", "$" + o.cost + "M"],
   );
   fill(
     "g-com",
     COM,
     (i) => i == S.com,
     (i) => (S.com = i),
-    (o) => [o.mass + " kg", o.pow + " W", o.rate + " Mbps", "$" + o.cost + "M"],
+    (o) => o.sourceTags || [o.mass + " kg", o.pow + " W", o.rate + " Mbps", "$" + o.cost + "M"],
   );
   fill(
     "g-ins",
@@ -111,10 +183,12 @@ export function render() {
     (i) => S.ins.has(i),
     (i) => (S.ins.has(i) ? S.ins.delete(i) : S.ins.add(i)),
     (o) => [
-      o.mass + " kg",
-      o.pow + " W",
-      "$" + o.cost + "M",
-      o.data + " Gb/d",
+      ...(o.sourceTags || [
+        o.mass + " kg",
+        o.pow + " W",
+        "$" + o.cost + "M",
+        o.data + " Gb/d",
+      ]),
       "★" + o.sci,
     ],
   );
@@ -123,39 +197,22 @@ export function render() {
     GND,
     (i) => i == S.gnd,
     (i) => (S.gnd = i),
-    (o) => ["$" + o.cost + "M", "≈" + o.h + " h/day"],
+    (o) => o.sourceTags || ["$" + o.cost + "M", "≈" + o.h + " h/day"],
   );
   fill(
     "g-ctl",
     CTL,
     (i) => i == S.ctl,
     (i) => (S.ctl = i),
-    (o) => ["$" + o.cost + "M", "reliability " + Math.round(o.rel * 100) + "%"],
+    (o) => o.sourceTags || ["$" + o.cost + "M", "reliability " + (o.rel * 100).toFixed(o.rel % 1 ? 2 : 0) + "%"],
   );
   fill(
     "g-usr",
     USR,
     (i) => i == S.usr,
     (i) => (S.usr = i),
-    (o) => ["$" + o.cost + "M", o.users, "impact ×" + o.mult],
+    (o) => [...(o.sourceTags || ["$" + o.cost + "M", o.users]), "impact ×" + o.mult],
   );
-  $("flow").innerHTML = "";
-  SEGS.forEach((s, i) => {
-    const b = opt(
-      { n: s.n, d: s.d },
-      false,
-      () => {
-        S.tab = i + 1;
-        render();
-      },
-      ["$" + Math.round(Object.values(c.seg)[i]) + "M"],
-      false,
-      sv(ICON.seg(i)),
-    );
-    b.querySelector("h3").dataset.n = i + 1;
-    $("flow").appendChild(b);
-  });
-  renderBriefing(c);
   hud();
   renderSelectionSummary();
 }

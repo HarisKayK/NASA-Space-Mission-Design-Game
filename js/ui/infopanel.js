@@ -34,9 +34,11 @@ function fitOf(k, i) {
         ? ["ok", `Suits ${o.n}.`]
         : ["no", `Doesn’t suit ${o.n}. It needs ${orbNames(o)}.`];
     case "veh": {
+      const cap = x.cap[c.orb.id];
+      if (cap == null)
+        return ["warn", `${x.capNotes?.[c.orb.id] || "Payload performance for this injection is not in the supplied data."} Launch mass cannot be verified.`];
       if (!MAP[o.id].some((id) => x.cap[id] > 0))
         return ["no", `Can’t reach the orbit ${o.n} needs.`];
-      const cap = x.cap[c.orb.id];
       if (!cap)
         return ["no", `Can’t reach the ${c.orb.n.toLowerCase()} you picked.`];
       return c.mass > cap
@@ -72,9 +74,9 @@ function fitOf(k, i) {
             `Sends only ${L(c.down)} Gb/day. Your instruments make ${L(c.data)}, so data is lost.`,
           ];
     case "ctl":
-      return x.rel >= 1
-        ? ["ok", "Full reliability."]
-        : ["warn", `Reduced response. Score ×${x.rel}.`];
+      return x.rel >= 0.99
+        ? ["ok", `High reliability (${(x.rel * 100).toFixed(2).replace(/0+$/, "").replace(/\.$/, "")}%).`]
+        : ["warn", `Reduced response. Reliability ${(x.rel * 100).toFixed(0)}%; score ×${x.rel}.`];
     case "usr":
       return x.mult >= 1
         ? ["ok", `Reaches ${x.users}. Score ×${x.mult}.`]
@@ -87,22 +89,20 @@ function showInfo(card, k) {
   if (!x) return;
   const f = fitOf(k, i),
     strip = (s) => s.replace(/ \(.*\)/, "");
-  let b = `<h4>${x.n}</h4><p>${x.use || x.need}</p>`;
+  const title = k === "obj" ? (x.representativeMission || x.n) : x.n;
+  let b = `<h4>${title}</h4><p>${x.use || x.need || x.d || ""}</p>`;
   if (k == "ins")
     b += `<div class="k">Measures</div><p>${x.meas}</p><div class="k">Best for</div><p>${x.fit.map((id) => OBJ.find((y) => y.id == id).n).join(", ")}</p>`;
   if (k == "obj")
-    b += `<div class="k">Goals</div><p>${x.goals.join(" · ")}</p><div class="k">Needs orbit</div><p>${orbNames(x)}</p><div class="k">Instruments that suit it</div><p>${INS.filter(
+    b += `<div class="k">Science goals</div><p>${x.goals.join(" · ")}</p><div class="k">Recommended orbit</div><p>${orbNames(x)}</p><div class="k">Compatible instruments</div><p>${INS.filter(
       (n) => n.fit.includes(x.id),
     )
       .map((n) => strip(n.n))
       .join(", ")}</p>`;
+  if (x.sourceSpecs?.length)
+    b += `<div class="k">Reference data</div><p>${x.sourceSpecs.join("<br>")}</p>`;
   if (f)
     b += `<p class="fit${f[0]}">${{ ok: "✓", warn: "⚠", no: "✗" }[f[0]]} ${f[1]}</p>`;
-  const sp = [...card.querySelectorAll(".tags span")]
-    .map((s) => s.textContent)
-    .join(" · ");
-  if (sp) b += `<div class="k">Specs</div><p class="mono">${sp}</p>`;
-  if (x.ref) b += `<p class="ref">${x.ref}</p>`;
   info.innerHTML = b;
   const r = card.getBoundingClientRect(),
     w = 280,

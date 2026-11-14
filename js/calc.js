@@ -26,13 +26,15 @@ export function calc() {
     u = USR[S.usr];
   const ins = [...S.ins].map((i) => INS[i]),
     sum = (x) => ins.reduce((a, b) => a + b[x], 0);
+  const missionYears = o.months / 12;
+  const lifecycleCost = (item) => item.cost * (item.annual ? missionYears : 1);
   const seg = {
     launch: v.cost,
     space: bu.cost + p.cost + c.cost + sum("cost"),
-    ground: g.cost + k.cost,
-    user: u.cost,
+    ground: lifecycleCost(g) + lifecycleCost(k),
+    user: lifecycleCost(u),
   };
-  const hours = Math.min(24, g.h * orb.cf);
+  const hours = Math.min(24, g.h);
   const sci = ins.reduce(
     (a, i) => a + i.sci * (i.fit.includes(o.id) ? 1 : 0.3),
     0,
@@ -51,7 +53,9 @@ export function calc() {
     misfit,
     rawSci: sum("sci"),
     mass: Math.round(bu.mass + p.mass + c.mass + sum("mass")),
-    cap: v.cap[orb.id],
+    cap: v.cap[orb.id] ?? null,
+    launchVerified: v.cap[orb.id] != null,
+    launchCapacityNote: v.capNotes?.[orb.id] || "Payload capacity for this trajectory is not included in the supplied dataset.",
     powUse: Math.round(bu.load + c.pow + sum("pow")),
     gen: p.gen,
     cost: Math.round(seg.launch + seg.space + seg.ground + seg.user),
@@ -68,9 +72,13 @@ export function calc() {
 export function reqs(c) {
   return [
     [
-      c.mass <= c.cap,
-      `Mass ≤ ${c.cap.toLocaleString()} kg (rocket limit)`,
-      "add up the part masses",
+      c.cap == null ? null : c.mass <= c.cap,
+      c.cap == null
+        ? "Launch payload capacity not supplied for this trajectory"
+        : `Mass ≤ ${c.cap.toLocaleString()} kg (rocket limit)`,
+      c.cap == null
+        ? "verify the launcher’s heliocentric-injection performance"
+        : "add up the part masses",
     ],
     [
       c.powUse <= c.gen,

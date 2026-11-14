@@ -6,49 +6,85 @@
     "cost": 7.5,
     "cap": {
       "leo": 300,
-      "sso": 225,
+      "sso": 200,
       "geo": 0,
-      "moon": 0
+      "moon": 70,
+      "helio": null
     },
-    "ref": "300 kg to LEO, ~225 kg to SSO, ~$7.5M."
+    "costRange": "≈$7.5M per launch",
+    "sourceSpecs": [
+      "LEO: 300 kg · SSO: 200 kg · GEO: not available · lunar polar TLI: 70 kg"
+    ],
+    "capNotes": {
+      "helio": "The supplied data does not specify payload capacity for heliocentric injection."
+    }
   },
   {
     "n": "ULA Atlas V 401",
     "use": "A proven rocket that NASA has used for many missions. It lifts medium to heavy spacecraft and launched both Landsat 9 and LRO.",
     "d": "Proven NASA workhorse.",
-    "cost": 110,
+    "cost": 175,
     "cap": {
       "leo": 9800,
-      "sso": 6500,
+      "sso": 7700,
       "geo": 4750,
-      "moon": 2200
+      "moon": 3850,
+      "helio": null
     },
-    "ref": "Launched both Landsat 9 (2,711 kg) and LRO (1,916 kg). Cost ≈$110M; Atlas V 551 is ~$110M."
+    "costRange": "$150M–$200M per launch",
+    "sourceSpecs": [
+      "LEO: 9,800 kg · SSO: 7,700 kg",
+      "GEO: 4,750 kg · lunar polar TLI: 3,850 kg"
+    ],
+    "capNotes": {
+      "helio": "The supplied data does not specify payload capacity for heliocentric injection."
+    }
   },
   {
     "n": "SpaceX Falcon 9",
     "use": "A medium-lift rocket with a listed price of about $67M. Good value for most missions.",
     "d": "Medium-lift, listed commercial price.",
-    "cost": 67,
+    "cost": 68.5,
     "cap": {
       "leo": 22800,
-      "sso": 17000,
-      "geo": 8300,
-      "moon": 2100
+      "sso": 14800,
+      "geo": null,
+      "moon": 4020,
+      "helio": null
     },
-    "ref": "22,800 kg to LEO, 8,300 kg to GTO, $67M. Lunar figure is the heaviest flown (2,120 kg); SSO ≈ estimated."
+    "costRange": "$67M–$70M per launch",
+    "sourceSpecs": [
+      "LEO: 22,800 kg · SSO: 14,800 kg",
+      "GTO: 5,500 kg (transfer orbit); direct GEO injection capacity is not specified.",
+      "Lunar polar TLI: 4,020 kg"
+    ],
+    "transferCap": {
+      "gto": 5500
+    },
+    "capNotes": {
+      "geo": "The supplied 5,500 kg figure is to geostationary transfer orbit (GTO), not direct GEO injection; direct GEO capacity is not specified.",
+      "helio": "The supplied data does not specify payload capacity for heliocentric injection."
+    }
   },
   {
     "n": "SpaceX Falcon Heavy",
     "use": "The most powerful rocket here. It carries big, heavy spacecraft to far places, but it costs the most.",
     "d": "Heavy lift for big payloads.",
-    "cost": 97,
+    "cost": 200,
     "cap": {
       "leo": 63800,
-      "sso": 47000,
+      "sso": 30000,
       "geo": 26700,
-      "moon": 15460
+      "moon": 22000,
+      "helio": null
     },
-    "ref": "63,800 kg to LEO, 26,700 kg to GTO, ~15,460 kg to the Moon (expendable), $97M list. NASA’s total launch cost for GOES-U on this rocket was $152.5M."
+    "costRange": "$150M–$250M per launch",
+    "sourceSpecs": [
+      "LEO: 63,800 kg · SSO: 30,000 kg",
+      "GEO: 26,700 kg · lunar polar TLI: 22,000 kg"
+    ],
+    "capNotes": {
+      "helio": "The supplied data does not specify payload capacity for heliocentric injection."
+    }
   }
 ]

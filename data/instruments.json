@@ -4,103 +4,160 @@
     "use": "Space radiation can harm astronauts and electronics. This tool counts the fast particles near the Moon, so engineers can plan safer missions.",
     "meas": "Radiation particles and how much energy they carry",
     "d": "Measures space radiation.",
-    "mass": 5.4,
-    "pow": 7.3,
-    "cost": 10,
-    "data": 0.04,
+    "mass": 4.5,
+    "pow": 9.0,
+    "cost": 15,
+    "data": 0.5,
     "sci": 8,
-    "fit": ["moon"],
-    "ref": "LRO: 5.4 kg, 7.3 W, ~0.5 kbps. Cost ≈ estimated."
+    "fit": [
+      "moon"
+    ],
+    "sourceTags": [
+      "4.5 kg",
+      "9.0 W",
+      "$15M",
+      "0.5 Gb/day"
+    ]
   },
   {
     "n": "Diviner radiometer",
     "use": "Measures how hot or cold the ground is. It helps find very cold shadowed places where ice could hide, and tells scientists what the rock is like.",
     "meas": "Surface temperature, day and night",
     "d": "Maps surface temperatures.",
-    "mass": 11,
-    "pow": 24.7,
+    "mass": 7.2,
+    "pow": 21.7,
     "cost": 25,
-    "data": 5,
+    "data": 12,
     "sci": 25,
-    "fit": ["moon"],
-    "ref": "LRO: 11 kg, 24.7 W. Cost and data ≈ estimated."
+    "fit": [
+      "moon"
+    ],
+    "sourceTags": [
+      "7.2 kg",
+      "21.7 W",
+      "$25M",
+      "12 Gb/day"
+    ]
   },
   {
     "n": "LOLA laser altimeter",
     "use": "Shoots laser pulses at the ground and times the echo. This gives exact heights, so scientists can make 3D maps and find safe landing spots.",
     "meas": "Height and slope of the ground",
     "d": "Measures height and slopes.",
-    "mass": 11.3,
+    "mass": 8.7,
     "pow": 33.4,
     "cost": 30,
-    "data": 0.9,
+    "data": 25,
     "sci": 30,
-    "fit": ["moon", "earth"],
-    "ref": "LRO press kit: 11.3 kg, 33.4 W (fact sheet: 9.6 kg, 26.2 W), 10 kbps. Cost ≈ estimated."
+    "fit": [
+      "moon",
+      "earth"
+    ],
+    "sourceTags": [
+      "8.7 kg",
+      "33.4 W",
+      "$30M",
+      "25 Gb/day"
+    ]
   },
   {
     "n": "LROC camera",
     "use": "A camera that takes sharp pictures of the surface. Scientists use it to spot rocks, craters and possible landing sites.",
     "meas": "Detailed pictures of the surface",
     "d": "High-resolution surface images.",
-    "mass": 19.2,
-    "pow": 24,
+    "mass": 27.1,
+    "pow": 28.0,
     "cost": 40,
-    "data": 450,
+    "data": 500,
     "sci": 40,
-    "fit": ["moon"],
-    "ref": "LRO: 19.2 kg, 24 W. LRO’s whole measurement volume was ~572 Gb/day, so data and cost ≈ estimated."
+    "fit": [
+      "moon"
+    ],
+    "sourceTags": [
+      "27.1 kg",
+      "28 W",
+      "$40M",
+      "500 Gb/day"
+    ]
   },
   {
     "n": "Multispectral imager (OLI-2 class)",
     "use": "Takes pictures in several colours of visible and infrared light. Each colour shows something different, like healthy plants, water, or new buildings.",
     "meas": "Sunlight reflected from land, in several colours",
     "d": "Visible and infrared land imaging.",
-    "mass": 400,
-    "pow": 425,
+    "mass": 250,
+    "pow": 300,
     "cost": 120,
-    "data": 300,
+    "data": 1500,
     "sci": 60,
-    "fit": ["earth"],
-    "ref": "Mass and power are NASA’s not-to-exceed limits for OLI (400 kg, 425 W average); the real instrument is lighter. Landsat 9 collects 700+ scenes/day. Cost and data ≈ estimated."
+    "fit": [
+      "earth"
+    ],
+    "sourceTags": [
+      "~250 kg",
+      "300 W",
+      "$120M",
+      "1,500 Gb/day"
+    ]
   },
   {
     "n": "Advanced Baseline Imager (ABI)",
     "use": "Takes pictures of clouds, storms, fires and dust across a whole half of the Earth, again and again. Forecasters use them to spot dangerous weather early.",
     "meas": "Clouds, storms, fire and dust in 16 colour bands",
     "d": "16-band weather imaging of a full hemisphere.",
-    "mass": 338,
-    "pow": 450,
-    "cost": 255,
-    "data": 5702,
+    "mass": 315,
+    "pow": 380,
+    "cost": 200,
+    "data": 3000,
     "sci": 60,
-    "fit": ["weather"],
-    "ref": "GOES-R ABI: 338 kg, 450 W, 66 Mbps (≈5,700 Gb/day). $255M is the real contract for development, a prototype and two flight units."
+    "fit": [
+      "weather"
+    ],
+    "sourceTags": [
+      "315 kg",
+      "380 W",
+      "$200M",
+      "3,000 Gb/day"
+    ]
   },
   {
     "n": "EXIS solar sensors",
     "use": "Watches the Sun’s X-rays and ultraviolet light. Sudden bursts can disturb radio signals and satellites, so this gives an early warning.",
     "meas": "Brightness of the Sun in X-rays and ultraviolet",
     "d": "Watches the Sun’s X-rays and ultraviolet light.",
-    "mass": 30,
-    "pow": 40,
-    "cost": 25,
-    "data": 0.6,
+    "mass": 22,
+    "pow": 25,
+    "cost": 18,
+    "data": 5,
     "sci": 10,
-    "fit": ["weather"],
-    "ref": "GOES-R EXIS: 30 kg, 40 W, 7.2 kbps. Cost ≈ estimated."
+    "fit": [
+      "weather"
+    ],
+    "sourceTags": [
+      "22 kg",
+      "25 W",
+      "$18M",
+      "5 Gb/day"
+    ]
   },
   {
     "n": "Coronal imager",
     "use": "Takes pictures of the Sun’s faint outer atmosphere, called the corona, and of the solar wind flowing out of it. It helps explain how the Sun affects the whole solar system.",
     "meas": "Light from the Sun’s corona",
     "d": "Images the Sun’s outer atmosphere.",
-    "mass": 25,
-    "pow": 30,
-    "cost": 40,
-    "data": 20,
+    "mass": 35,
+    "pow": 45,
+    "cost": 35,
+    "data": 80,
     "sci": 45,
-    "fit": ["solar"],
-    "ref": "PUNCH images the Sun’s corona and the solar wind. All numbers ≈ estimated."
+    "fit": [
+      "solar"
+    ],
+    "sourceTags": [
+      "35 kg",
+      "45 W",
+      "$35M",
+      "80 Gb/day"
+    ]
   }
 ]

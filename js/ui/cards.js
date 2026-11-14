@@ -24,22 +24,39 @@ export function opt(item, sel, fn, tags, off, svg) {
   const b = document.createElement("button");
   b.title = item.tip || "";
   b.className = "opt" + (sel ? " sel" : "") + (off ? " off" : "");
-  b.innerHTML = `${svg ? `<div class="ico">${svg}</div>` : ""}<h3>${item.n}</h3>${item.d ? `<p>${item.d}</p>` : ""}<div class="tags mono">${tags.map((t) => `<span>${t}</span>`).join("")}</div>`;
+  const photoClass = item.photoClass || "mission-photo";
+  const artwork = item.image
+    ? `<div class="${photoClass}"><img src="${item.image}" alt="${item.imageAlt || item.n}" loading="lazy" decoding="async"${item.imagePos ? ` style="object-position:${item.imagePos}"` : ""}></div>`
+    : svg
+      ? `<div class="ico">${svg}</div>`
+      : "";
+  const body = `<h3>${item.n}</h3>${item.d ? `<p>${item.d}</p>` : ""}<div class="tags mono">${tags.map((t) => `<span>${t}</span>`).join("")}</div>`;
+  // Side-by-side cards (e.g. launch vehicles) keep their text in one column.
+  b.innerHTML = item.image && photoClass === "vehicle-photo"
+    ? `${artwork}<div class="opt-body">${body}</div>`
+    : `${artwork}${body}`;
+  if (item.image && photoClass === "vehicle-photo") b.classList.add("vehicle-choice");
   b.onclick = fn;
   return b;
 }
-export function fill(id, arr, isSel, fn, tagf, offf) {
+// artf(item) may return { src, alt, pos, photoClass } to show a photo instead of the SVG icon.
+export function fill(id, arr, isSel, fn, tagf, offf, artf) {
   const g = $(id);
   g.innerHTML = "";
   const k = KIND[id],
     showD = k == "obj" || k == "orb";
-  arr.forEach((x, i) =>
+  arr.forEach((x, i) => {
+    const art = artf && artf(x);
     g.appendChild(
       opt(
         {
           n: x.n,
           d: showD ? x.d : "",
           tip: "",
+          image: art?.src,
+          imageAlt: art?.alt,
+          imagePos: art?.pos,
+          photoClass: art?.photoClass,
         },
         isSel(i),
         () => {
@@ -48,8 +65,8 @@ export function fill(id, arr, isSel, fn, tagf, offf) {
         },
         tagf(x),
         offf && offf(x),
-        k ? sv(ICON[k](x, i)) : "",
+        k && !art ? sv(ICON[k](x, i)) : "",
       ),
-    ),
-  );
+    );
+  });
 }
