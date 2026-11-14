@@ -1,6 +1,6 @@
 # Mission Control · Space Mission Design Game
 
-Design a NASA-style science mission: pick an objective, then choose the launch, space, ground and user segments, and simulate it.
+Design a NASA-style science mission: pick an objective, choose the launch, space, ground and user segments, then run a design-dependent mission playback.
 
 ## Run it
 
@@ -39,6 +39,7 @@ js/
     briefing.js     need, ConOps, requirements, missions
     simulate.js     "Launch mission" results
     infopanel.js    hover info and fit verdicts
+    timeline.js     mission phases, outcomes and design-driven incidents
     starfield.js    animated background
 ```
 
@@ -49,3 +50,7 @@ js/
 - Objectives list their suitable orbits in `"orbits"` (ids from `orbits.json`).
 - Instruments say which objectives they suit in `"fit"` (objective ids).
 - Numbers marked `≈` in `"ref"` are estimates or game simplifications.
+
+## Mission playback
+
+The Simulate tab now includes a rule-based mission timeline: launch and separation, orbit insertion, commissioning, science operations, downlink, and end-of-mission review. The selected design determines which phases are nominal, degraded, failed, or blocked, and the game lists practical issues to resolve. This is an educational systems-level playback, not a high-fidelity orbital, thermal, or communications simulation.
