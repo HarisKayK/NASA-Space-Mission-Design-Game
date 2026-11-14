@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Mission Control · Space Mission Design Game</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="gM" x1="0" x2="1">
+          <stop offset="0" stop-color="#eef2ff" />
+          <stop offset=".55" stop-color="#a9b6d6" />
+          <stop offset="1" stop-color="#67789f" />
+        </linearGradient>
+        <linearGradient id="gW" x1="0" x2="1">
+          <stop offset="0" stop-color="#ffffff" />
+          <stop offset=".5" stop-color="#d3dcf2" />
+          <stop offset="1" stop-color="#8e9cc2" />
+        </linearGradient>
+        <linearGradient id="gB" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#7db4ff" />
+          <stop offset="1" stop-color="#2f5fc0" />
+        </linearGradient>
+        <linearGradient id="gG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f7d774" />
+          <stop offset=".5" stop-color="#c9962b" />
+          <stop offset="1" stop-color="#f1c75a" />
+        </linearGradient>
+        <linearGradient id="gF" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff6c8" />
+          <stop offset=".45" stop-color="#ffb347" />
+          <stop offset="1" stop-color="#ff5a28" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="gSc" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#16336b" />
+          <stop offset="1" stop-color="#0b1a3a" />
+        </linearGradient>
+        <linearGradient id="gGl" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity="0" />
+          <stop offset=".5" stop-color="#fff" stop-opacity=".45" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+        </linearGradient>
+        <radialGradient id="gE" cx=".35" cy=".3" r=".9">
+          <stop offset="0" stop-color="#7cc0ff" />
+          <stop offset=".55" stop-color="#2358b4" />
+          <stop offset="1" stop-color="#0a2252" />
+        </radialGradient>
+        <radialGradient id="gMo" cx=".35" cy=".3" r=".9">
+          <stop offset="0" stop-color="#e3e6f2" />
+          <stop offset=".6" stop-color="#98a0b6" />
+          <stop offset="1" stop-color="#555b72" />
+        </radialGradient>
+        <radialGradient id="gSh" cx=".3" cy=".3" r=".95">
+          <stop offset=".55" stop-color="#000a24" stop-opacity="0" />
+          <stop offset="1" stop-color="#000a24" stop-opacity=".65" />
+        </radialGradient>
+        <radialGradient id="gSun">
+          <stop offset="0" stop-color="#fff7c4" />
+          <stop offset="1" stop-color="#ffb020" />
+        </radialGradient>
+        <radialGradient id="gHeat">
+          <stop offset="0" stop-color="#ffe3a0" />
+          <stop offset=".6" stop-color="#ff7a45" />
+          <stop offset="1" stop-color="#7a1f2a" />
+        </radialGradient>
+        <pattern id="cells" width="5" height="5" patternUnits="userSpaceOnUse">
+          <rect width="5" height="5" fill="#123a8a" />
+          <path
+            d="M0 0H5M0 0V5"
+            stroke="#5ea1ff"
+            stroke-opacity=".55"
+            stroke-width=".5"
+          />
+        </pattern>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2.2" />
+        </filter>
+      </defs>
+    </svg>
+    <canvas id="stars"></canvas>
+    <div class="wrap">
+      <header>
+        <div>
+          <div class="logo">◉ MISSION<span>CONTROL</span></div>
+          <div class="sub">
+            Space Mission Design Game · plan it, launch it, learn from it
+          </div>
+        </div>
+        <div class="seg" id="mode">
+          <button class="on" data-m="solo">Solo</button
+          ><button data-m="team">Team (up to 4)</button>
+        </div>
+      </header>
+
+      <section class="hud" id="hud"></section>
+      <section class="card viz-card" id="viz"></section>
+      <nav id="tabs"></nav>
+
+      <main>
+        <section class="panel card on" id="p-0">
+          <h2>Mission objective</h2>
+          <div class="sub">
+            Every mission is built from four segments. Pick your goal, then
+            design each segment.
+          </div>
+          <div class="grid" id="g-obj"></div>
+          <h3 class="subh">The four mission segments</h3>
+          <div class="flow" id="flow"></div>
+          <div id="team" class="row" style="display: none"></div>
+        </section>
+
+        <section class="panel card" id="p-1">
+          <h2>Launch segment</h2>
+          <div class="sub">
+            The launch vehicle and services required to place the mission in
+            space.
+          </div>
+          <h3 class="subh">Orbit</h3>
+          <div class="grid" id="g-orb"></div>
+          <h3 class="subh">Launch vehicle</h3>
+          <div class="grid" id="g-veh"></div>
+        </section>
+
+        <section class="panel card" id="p-2">
+          <h2>Space segment</h2>
+          <div class="sub">
+            The spacecraft and instruments that carry out the mission.
+          </div>
+          <h3 class="subh">Spacecraft bus</h3>
+          <div class="grid" id="g-bus"></div>
+          <h3 class="subh">Power system</h3>
+          <div class="grid" id="g-pow"></div>
+          <h3 class="subh">Communications</h3>
+          <div class="grid" id="g-com"></div>
+          <h3 class="subh">Science instruments (choose any)</h3>
+          <div class="grid" id="g-ins"></div>
+        </section>
+
+        <section class="panel card" id="p-3">
+          <h2>Ground segment</h2>
+          <div class="sub">
+            Ground stations and mission control, responsible for communication,
+            data reception and mission management.
+          </div>
+          <h3 class="subh">Ground stations</h3>
+          <div class="grid" id="g-gnd"></div>
+          <h3 class="subh">Mission control</h3>
+          <div class="grid" id="g-ctl"></div>
+        </section>
+
+        <section class="panel card" id="p-4">
+          <h2>User segment</h2>
+          <div class="sub">
+            The scientists and other users who analyse and apply the mission’s
+            data.
+          </div>
+          <h3 class="subh">Data processing &amp; access</h3>
+          <div class="grid" id="g-usr"></div>
+        </section>
+
+        <section class="panel card" id="p-5">
+          <h2>Simulate</h2>
+          <div class="sub">
+            Run the whole mission. Adjust any segment and fly again.
+          </div>
+          <div class="row">
+            <button class="btn" id="run">Launch mission ▶</button>
+          </div>
+          <div id="out"></div>
+        </section>
+        <div class="tip" id="tip"></div>
+        <p class="note">
+          Data is based on real NASA missions and published launch specs
+          (Landsat 9, Lunar Reconnaissance Orbiter, GOES, Falcon 9/Heavy, Atlas
+          V, Electron). Values marked ≈ are approximations or game
+          simplifications. Each card shows its real-world reference.
+        </p>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
