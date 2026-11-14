@@ -91,9 +91,7 @@
       <header>
         <div>
           <div class="logo">◉ MISSION<span>CONTROL</span></div>
-          <div class="sub">
-            Space Mission Design Game · plan it, launch it, learn from it
-          </div>
+          <div class="sub">Space Mission Design Game</div>
         </div>
         <div class="seg" id="mode">
           <button class="on" data-m="solo">Solo</button
@@ -108,22 +106,27 @@
       <main>
         <section class="panel card on" id="p-0">
           <h2>Mission objective</h2>
-          <div class="sub">
-            Every mission is built from four segments. Pick your goal, then
-            design each segment.
-          </div>
+          <div class="sub">Pick a goal, then design each segment.</div>
           <div class="grid" id="g-obj"></div>
-          <h3 class="subh">The four mission segments</h3>
+          <div class="brief" id="brief"></div>
+          <h3 class="subh">Segments</h3>
           <div class="flow" id="flow"></div>
+          <h3 class="subh">Concept of operations</h3>
+          <div class="sub">How the mission will work, in time order.</div>
+          <div class="seglist" id="conops"></div>
+          <h3 class="subh">Requirements</h3>
+          <div class="sub">
+            Plan how you will verify each one before you build.
+          </div>
+          <div id="reqs"></div>
+          <h3 class="subh">Real missions to study</h3>
+          <div class="grid" id="ex"></div>
           <div id="team" class="row" style="display: none"></div>
         </section>
 
         <section class="panel card" id="p-1">
           <h2>Launch segment</h2>
-          <div class="sub">
-            The launch vehicle and services required to place the mission in
-            space.
-          </div>
+          <div class="sub">Gets the mission into space.</div>
           <h3 class="subh">Orbit</h3>
           <div class="grid" id="g-orb"></div>
           <h3 class="subh">Launch vehicle</h3>
@@ -132,25 +135,20 @@
 
         <section class="panel card" id="p-2">
           <h2>Space segment</h2>
-          <div class="sub">
-            The spacecraft and instruments that carry out the mission.
-          </div>
+          <div class="sub">The spacecraft and its instruments.</div>
           <h3 class="subh">Spacecraft bus</h3>
           <div class="grid" id="g-bus"></div>
           <h3 class="subh">Power system</h3>
           <div class="grid" id="g-pow"></div>
           <h3 class="subh">Communications</h3>
           <div class="grid" id="g-com"></div>
-          <h3 class="subh">Science instruments (choose any)</h3>
+          <h3 class="subh">Instruments (choose any)</h3>
           <div class="grid" id="g-ins"></div>
         </section>
 
         <section class="panel card" id="p-3">
           <h2>Ground segment</h2>
-          <div class="sub">
-            Ground stations and mission control, responsible for communication,
-            data reception and mission management.
-          </div>
+          <div class="sub">Stations and mission control.</div>
           <h3 class="subh">Ground stations</h3>
           <div class="grid" id="g-gnd"></div>
           <h3 class="subh">Mission control</h3>
@@ -160,32 +158,25 @@
         <section class="panel card" id="p-4">
           <h2>User segment</h2>
           <div class="sub">
-            The scientists and other users who analyse and apply the mission’s
-            data.
+            People who use the data. Start here: begin with the end in mind.
           </div>
-          <h3 class="subh">Data processing &amp; access</h3>
+          <h3 class="subh">Data access</h3>
           <div class="grid" id="g-usr"></div>
         </section>
 
         <section class="panel card" id="p-5">
           <h2>Simulate</h2>
-          <div class="sub">
-            Run the whole mission. Adjust any segment and fly again.
-          </div>
+          <div class="sub">Run it, adjust, repeat.</div>
           <div class="row">
             <button class="btn" id="run">Launch mission ▶</button>
           </div>
           <div id="out"></div>
         </section>
         <div class="tip" id="tip"></div>
-        <p class="note">
-          Data is based on real NASA missions and published launch specs
-          (Landsat 9, Lunar Reconnaissance Orbiter, GOES, Falcon 9/Heavy, Atlas
-          V, Electron). Values marked ≈ are approximations or game
-          simplifications. Each card shows its real-world reference.
-        </p>
+        <p class="note">≈ estimated. Hover a card for its real-world source.</p>
       </main>
     </div>
+    <div id="insinfo" role="tooltip"></div>
     <script src="script.js"></script>
   </body>
 </html>

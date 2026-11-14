@@ -498,3 +498,71 @@ h2 {
     animation: none !important;
   }
 }
+
+.brief {
+  margin-top: 12px;
+}
+.briefp {
+  margin: 4px 0 8px;
+}
+.ver {
+  color: var(--dim);
+  font-size: 0.78rem;
+}
+a.opt {
+  display: block;
+  text-decoration: none;
+}
+#insinfo {
+  position: fixed;
+  z-index: 50;
+  width: 280px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(10, 15, 32, 0.97);
+  border: 1px solid var(--acc);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+#insinfo.on {
+  opacity: 1;
+  visibility: visible;
+}
+#insinfo h4 {
+  margin: 0 0 6px;
+  font:
+    600 1rem "Space Grotesk",
+    sans-serif;
+}
+#insinfo p {
+  margin: 2px 0;
+}
+#insinfo .k {
+  margin-top: 8px;
+  color: var(--acc2);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+#insinfo .ref {
+  margin: 8px 0 0;
+}
+.fitok {
+  color: var(--ok);
+}
+.fitwarn {
+  color: var(--warn);
+}
+.fitno {
+  color: var(--bad);
+}
+@media (prefers-reduced-motion: reduce) {
+  #insinfo {
+    transition: none;
+  }
+}

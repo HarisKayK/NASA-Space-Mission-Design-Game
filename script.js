@@ -3,54 +3,91 @@ const OBJ = [
   {
     id: "earth",
     n: "Earth observation",
-    d: "Landsat 9-style land imaging from a Sun-synchronous orbit.",
+    d: "Landsat 9 style land imaging.",
+    disc: "Earth science",
+    need: "Track changes to land over time so people can manage farms, water and cities.",
+    goals: [
+      "Image the land in several colours",
+      "Cover the whole globe regularly",
+      "Share the data freely",
+    ],
     budget: 1000,
     months: 60,
   },
   {
     id: "moon",
     n: "Lunar science",
-    d: "LRO-style mapping of the Moon’s surface, ice and radiation.",
+    d: "LRO style Moon mapping.",
+    disc: "Planetary science",
+    need: "Map the Moon so future missions know where to land and what hazards exist.",
+    goals: [
+      "Measure surface height and heat",
+      "Take sharp surface images",
+      "Measure radiation near the Moon",
+    ],
     budget: 700,
     months: 12,
   },
   {
     id: "weather",
     n: "Weather monitoring",
-    d: "GOES-style continuous weather watch from geostationary orbit.",
+    d: "GOES style weather watch.",
+    disc: "Earth science",
+    need: "Watch one region all the time so weather warnings come early.",
+    goals: [
+      "Stay fixed over one region",
+      "Image the whole disk often",
+      "Watch the Sun’s activity too",
+    ],
     budget: 1300,
     months: 120,
   },
+  {
+    id: "solar",
+    n: "Solar science",
+    d: "PUNCH style Sun corona imaging.",
+    disc: "Heliophysics",
+    need: "Learn how the Sun’s outer atmosphere becomes the solar wind that fills the solar system.",
+    goals: [
+      "Image the Sun’s corona",
+      "Keep the lighting steady",
+      "Send the images to scientists",
+    ],
+    budget: 400,
+    months: 24,
+  },
 ];
-const MAP = { earth: ["sso", "leo"], moon: ["moon"], weather: ["geo"] };
+const MAP = {
+  earth: ["sso", "leo"],
+  moon: ["moon"],
+  weather: ["geo"],
+  solar: ["sso"],
+};
 const SEGS = [
   {
     n: "Launch segment",
-    d: "The launch vehicle and services required to place the mission in space.",
+    d: "Gets the mission into space.",
     role: "Launch lead",
   },
   {
     n: "Space segment",
-    d: "Spacecraft, instruments, orbiters, landers or rovers that conduct the mission.",
+    d: "The spacecraft and instruments.",
     role: "Spacecraft engineer",
   },
   {
     n: "Ground segment",
-    d: "Ground stations and mission control for communication, data reception and mission management.",
+    d: "Stations and mission control.",
     role: "Operations lead",
   },
-  {
-    n: "User segment",
-    d: "Scientists and other users who analyse and apply the mission’s data.",
-    role: "Science lead",
-  },
+  { n: "User segment", d: "People who use the data.", role: "Science lead" },
 ];
 // Launch segment (cf = how much longer a ground station can see the orbit)
 const ORB = [
   {
     id: "leo",
     n: "Low Earth orbit",
-    d: "Close to Earth with short passes over each station.",
+    use: "A close, fast orbit about 500 km up. You see fine detail and a lap takes about 95 minutes, but a ground station sees you only briefly each pass.",
+    d: "Close views, short passes.",
     alt: "≈500 km",
     per: "95 min",
     life: 0.8,
@@ -60,7 +97,8 @@ const ORB = [
   {
     id: "sso",
     n: "Sun-synchronous orbit",
-    d: "Near-polar, passes at the same local time for steady lighting.",
+    use: "A tilted orbit that passes over each place at the same local time every day. Lighting stays the same, so pictures can be compared over months and years. Landsat uses it.",
+    d: "Steady lighting, global coverage.",
     alt: "705 km",
     per: "99 min",
     life: 1,
@@ -70,7 +108,8 @@ const ORB = [
   {
     id: "geo",
     n: "Geostationary orbit",
-    d: "Hovers over one spot, so a station sees it almost all day.",
+    use: "An orbit so high that one lap takes 24 hours, the same as Earth’s spin. The spacecraft stays above one spot, so it can watch the weather there all the time.",
+    d: "Fixed over one spot.",
     alt: "35,786 km",
     per: "24 h",
     life: 1,
@@ -80,7 +119,8 @@ const ORB = [
   {
     id: "moon",
     n: "Lunar polar orbit",
-    d: "Circles the Moon, so Earth stations lose sight of it behind the Moon.",
+    use: "A low orbit over the Moon’s poles. As the Moon turns below, the spacecraft sees every part of it. It loses contact when it goes behind the Moon.",
+    d: "Hidden behind the Moon at times.",
     alt: "≈50 km",
     per: "113 min",
     life: 0.9,
@@ -91,6 +131,7 @@ const ORB = [
 const VEH = [
   {
     n: "Rocket Lab Electron",
+    use: "A small rocket made for small satellites. It is cheap, but it lifts little weight and cannot reach the Moon or geostationary orbit.",
     d: "Small dedicated launcher.",
     cost: 7.5,
     cap: { leo: 300, sso: 225, geo: 0, moon: 0 },
@@ -98,6 +139,7 @@ const VEH = [
   },
   {
     n: "ULA Atlas V 401",
+    use: "A proven rocket that NASA has used for many missions. It lifts medium to heavy spacecraft and launched both Landsat 9 and LRO.",
     d: "Proven NASA workhorse.",
     cost: 110,
     cap: { leo: 9800, sso: 6500, geo: 4750, moon: 2200 },
@@ -105,6 +147,7 @@ const VEH = [
   },
   {
     n: "SpaceX Falcon 9",
+    use: "A medium-lift rocket with a listed price of about $67M. Good value for most missions.",
     d: "Medium-lift, listed commercial price.",
     cost: 67,
     cap: { leo: 22800, sso: 17000, geo: 8300, moon: 2100 },
@@ -112,6 +155,7 @@ const VEH = [
   },
   {
     n: "SpaceX Falcon Heavy",
+    use: "The most powerful rocket here. It carries big, heavy spacecraft to far places, but it costs the most.",
     d: "Heavy lift for big payloads.",
     cost: 97,
     cap: { leo: 63800, sso: 47000, geo: 26700, moon: 15460 },
@@ -122,6 +166,7 @@ const VEH = [
 const BUS = [
   {
     n: "Small satellite bus",
+    use: "The body of a small satellite. It holds the computer, fuel and frame. It is cheap and light, but lasts only about two years.",
     d: "Compact, low cost, short life.",
     mass: 250,
     cost: 60,
@@ -131,6 +176,7 @@ const BUS = [
   },
   {
     n: "LRO-class bus",
+    use: "A body built to orbit the Moon. It carries extra fuel so it can enter and hold a lunar orbit.",
     d: "Lunar orbiter with propellant for the Moon.",
     mass: 1869,
     cost: 250,
@@ -140,6 +186,7 @@ const BUS = [
   },
   {
     n: "Landsat-class bus (LEOStar-3)",
+    use: "A body for Earth-imaging satellites in a 705 km orbit. It points steadily and lasts about five years.",
     d: "Earth-observing platform for a 705 km orbit.",
     mass: 2071,
     cost: 300,
@@ -149,6 +196,7 @@ const BUS = [
   },
   {
     n: "GOES-R-class bus (A2100)",
+    use: "A big body for geostationary weather satellites. It has lots of fuel and a 15-year life, but it is heavy and costly.",
     d: "Big geostationary bus with lots of fuel.",
     mass: 4854,
     cost: 450,
@@ -160,6 +208,7 @@ const BUS = [
 const POW = [
   {
     n: "Small solar array",
+    use: "Small solar panels. Light and cheap, but they make little power.",
     d: "Enough for a small satellite.",
     mass: 30,
     cost: 15,
@@ -168,6 +217,7 @@ const POW = [
   },
   {
     n: "LRO-class solar array",
+    use: "Medium panels. Enough power for a few instruments on a science orbiter.",
     d: "Typical science orbiter.",
     mass: 80,
     cost: 40,
@@ -176,6 +226,7 @@ const POW = [
   },
   {
     n: "Landsat-class solar array",
+    use: "Large panels for power-hungry imagers.",
     d: "Large array for power-hungry imagers.",
     mass: 300,
     cost: 90,
@@ -184,6 +235,7 @@ const POW = [
   },
   {
     n: "GOES-R-class solar array",
+    use: "The largest panels here, made for big geostationary satellites.",
     d: "Largest option for big geostationary satellites.",
     mass: 350,
     cost: 100,
@@ -194,6 +246,7 @@ const POW = [
 const COM = [
   {
     n: "S-band low-rate antenna",
+    use: "A simple, light radio. It is fine for commands and small amounts of data, but too slow for lots of pictures.",
     d: "Simple and light, but slow.",
     mass: 5,
     cost: 5,
@@ -203,6 +256,7 @@ const COM = [
   },
   {
     n: "Ka-band high-gain antenna",
+    use: "A fast radio link with a dish. It sends much more data, but needs more power.",
     d: "Fast downlink, needs more power.",
     mass: 40,
     cost: 25,
@@ -212,6 +266,7 @@ const COM = [
   },
   {
     n: "X-band dual-channel downlink",
+    use: "Two fast channels for huge image volumes, like Landsat 8 uses. It needs the most power and mass.",
     d: "Very fast, for big imaging data volumes.",
     mass: 50,
     cost: 35,
@@ -223,6 +278,8 @@ const COM = [
 const INS = [
   {
     n: "CRaTER radiation telescope",
+    use: "Space radiation can harm astronauts and electronics. This tool counts the fast particles near the Moon, so engineers can plan safer missions.",
+    meas: "Radiation particles and how much energy they carry",
     d: "Measures space radiation.",
     mass: 5.4,
     pow: 7.3,
@@ -234,6 +291,8 @@ const INS = [
   },
   {
     n: "Diviner radiometer",
+    use: "Measures how hot or cold the ground is. It helps find very cold shadowed places where ice could hide, and tells scientists what the rock is like.",
+    meas: "Surface temperature, day and night",
     d: "Maps surface temperatures.",
     mass: 11,
     pow: 24.7,
@@ -245,6 +304,8 @@ const INS = [
   },
   {
     n: "LOLA laser altimeter",
+    use: "Shoots laser pulses at the ground and times the echo. This gives exact heights, so scientists can make 3D maps and find safe landing spots.",
+    meas: "Height and slope of the ground",
     d: "Measures height and slopes.",
     mass: 11.3,
     pow: 33.4,
@@ -256,6 +317,8 @@ const INS = [
   },
   {
     n: "LROC camera",
+    use: "A camera that takes sharp pictures of the surface. Scientists use it to spot rocks, craters and possible landing sites.",
+    meas: "Detailed pictures of the surface",
     d: "High-resolution surface images.",
     mass: 19.2,
     pow: 24,
@@ -267,6 +330,8 @@ const INS = [
   },
   {
     n: "Multispectral imager (OLI-2 class)",
+    use: "Takes pictures in several colours of visible and infrared light. Each colour shows something different, like healthy plants, water, or new buildings.",
+    meas: "Sunlight reflected from land, in several colours",
     d: "Visible and infrared land imaging.",
     mass: 400,
     pow: 425,
@@ -278,6 +343,8 @@ const INS = [
   },
   {
     n: "Advanced Baseline Imager (ABI)",
+    use: "Takes pictures of clouds, storms, fires and dust across a whole half of the Earth, again and again. Forecasters use them to spot dangerous weather early.",
+    meas: "Clouds, storms, fire and dust in 16 colour bands",
     d: "16-band weather imaging of a full hemisphere.",
     mass: 338,
     pow: 450,
@@ -289,6 +356,8 @@ const INS = [
   },
   {
     n: "EXIS solar sensors",
+    use: "Watches the Sun’s X-rays and ultraviolet light. Sudden bursts can disturb radio signals and satellites, so this gives an early warning.",
+    meas: "Brightness of the Sun in X-rays and ultraviolet",
     d: "Watches the Sun’s X-rays and ultraviolet light.",
     mass: 30,
     pow: 40,
@@ -298,11 +367,25 @@ const INS = [
     fit: ["weather"],
     ref: "GOES-R EXIS: 30 kg, 40 W, 7.2 kbps. Cost ≈ estimated.",
   },
+  {
+    n: "Coronal imager",
+    use: "Takes pictures of the Sun’s faint outer atmosphere, called the corona, and of the solar wind flowing out of it. It helps explain how the Sun affects the whole solar system.",
+    meas: "Light from the Sun’s corona",
+    d: "Images the Sun’s outer atmosphere.",
+    mass: 25,
+    pow: 30,
+    cost: 40,
+    data: 20,
+    sci: 45,
+    fit: ["solar"],
+    ref: "PUNCH images the Sun’s corona and the solar wind. All numbers ≈ estimated.",
+  },
 ];
 // Ground segment (h = hours per day of contact for a low orbit)
 const GND = [
   {
     n: "Single university station",
+    use: "One antenna. It sees the spacecraft only briefly each orbit, so little data comes home. It is cheap.",
     d: "One antenna sees the spacecraft briefly each orbit.",
     cost: 10,
     h: 1,
@@ -310,6 +393,7 @@ const GND = [
   },
   {
     n: "Regional ground network",
+    use: "Several stations spread out, so you can talk to the spacecraft for more of each day.",
     d: "Several stations for steady contact.",
     cost: 60,
     h: 3,
@@ -317,6 +401,7 @@ const GND = [
   },
   {
     n: "Relay satellite network",
+    use: "Relay satellites pass data along, giving near-constant contact. It costs the most.",
     d: "Relay satellites for near-continuous contact.",
     cost: 150,
     h: 8,
@@ -326,12 +411,14 @@ const GND = [
 const CTL = [
   {
     n: "Part-time operations team",
+    use: "A small team that works set hours. It is cheap, but slow to react when something goes wrong.",
     d: "Cheap, but slow to react when problems appear.",
     cost: 20,
     rel: 0.85,
   },
   {
     n: "24/7 mission control",
+    use: "A team that is always on watch and fixes problems quickly. NASA teams stay on console during key operations in case of problems.",
     d: "Always watching, quick fixes; costs more.",
     cost: 60,
     rel: 1,
@@ -341,6 +428,7 @@ const CTL = [
 const USR = [
   {
     n: "Mission science team only",
+    use: "Only the instrument teams use the data, so few people benefit.",
     d: "Only the instrument teams use the data.",
     cost: 15,
     mult: 0.8,
@@ -348,6 +436,7 @@ const USR = [
   },
   {
     n: "Public science archive",
+    use: "The data goes to an open archive that any researcher can use, like NASA’s Planetary Data System.",
     d: "Data goes to an open archive for researchers.",
     cost: 35,
     mult: 1,
@@ -356,6 +445,7 @@ const USR = [
   },
   {
     n: "Free and open data portal",
+    use: "Anyone can download the data, like Landsat data from USGS. This reaches the most people.",
     d: "Anyone can download and use the data.",
     cost: 80,
     mult: 1.25,
@@ -469,19 +559,25 @@ function hud() {
 }
 function opt(item, sel, fn, tags, off, svg) {
   const b = document.createElement("button");
+  b.title = item.tip || "";
   b.className = "opt" + (sel ? " sel" : "") + (off ? " off" : "");
-  b.innerHTML = `${svg ? `<div class="ico">${svg}</div>` : ""}<h3>${item.n}</h3><p>${item.d}</p>${item.ref ? `<p class="ref">${item.ref}</p>` : ""}<div class="tags mono">${tags.map((t) => `<span>${t}</span>`).join("")}</div>`;
+  b.innerHTML = `${svg ? `<div class="ico">${svg}</div>` : ""}<h3>${item.n}</h3>${item.d ? `<p>${item.d}</p>` : ""}<div class="tags mono">${tags.map((t) => `<span>${t}</span>`).join("")}</div>`;
   b.onclick = fn;
   return b;
 }
 function fill(id, arr, isSel, fn, tagf, offf) {
   const g = $(id);
   g.innerHTML = "";
-  const k = KIND[id];
+  const k = KIND[id],
+    showD = k == "obj" || k == "orb";
   arr.forEach((x, i) =>
     g.appendChild(
       opt(
-        x,
+        {
+          n: x.n,
+          d: showD ? x.d : "",
+          tip: "",
+        },
         isSel(i),
         () => {
           fn(i);
@@ -554,6 +650,10 @@ const mon = (x, y, w, h, d) =>
   `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1.5" fill="url(#gSc)" stroke="#5ea1ff" stroke-width=".7"/><path class="ln" style="animation-delay:${d}s" d="M${x + 3} ${y + h * 0.7}l${w * 0.15}-${h * 0.3} ${w * 0.15} ${h * 0.15} ${w * 0.2}-${h * 0.35} ${w * 0.15} ${h * 0.25} ${w * 0.2}-${h * 0.2}" fill="none" stroke="#4cd18a" stroke-width="1" stroke-dasharray="40" stroke-linecap="round"/><path d="M${x + w / 2} ${y + h}v3M${x + w / 2 - 4} ${y + h + 3}h8" stroke="#7b8db8" stroke-width=".8"/>`;
 const clock = (cx, cy) =>
   `<circle cx="${cx}" cy="${cy}" r="6" fill="#0d1a3c" stroke="#a78bfa" stroke-width=".8"/><path d="M${cx} ${cy}V${cy - 4}" stroke="#e6ebff" stroke-width=".8"><animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${cy}" to="360 ${cx} ${cy}" dur="12s" repeatCount="indefinite"/></path><path d="M${cx} ${cy}l2.5 1.5" stroke="#8d99c0" stroke-width=".8"/>`;
+const SUNI =
+  `<circle cx="60" cy="36" r="24" fill="#ffb020" opacity=".18" filter="url(#glow)"/><circle cx="60" cy="36" r="13" fill="url(#gSun)"/><circle class="dsh" cx="60" cy="36" r="19" fill="none" stroke="#ffcf6b" stroke-opacity=".6" stroke-dasharray="2 3"/>` +
+  orbit(50, 10, -15, 9);
+const CORI = `<circle cx="60" cy="36" r="22" fill="#ffb020" opacity=".25" filter="url(#glow)"/><circle cx="60" cy="36" r="12" fill="#0b1a3a" stroke="#ffcf6b" stroke-width="1.2"/><path class="dsh" d="M60 8v10M60 54v10M32 36h10M78 36h10" stroke="#ffcf6b" stroke-width="1.4" stroke-dasharray="3 4"/>`;
 const ICON = {
   obj: (o, i) =>
     [
@@ -566,6 +666,7 @@ const ICON = {
           `<defs><clipPath id="${id}"><circle cx="60" cy="36" r="24"/></clipPath></defs><g clip-path="url(#${id})"><path d="M52 32m0 0a3 3 0 1 1 6 0a8 8 0 1 1-14 0a13 13 0 1 1 22 0" transform="translate(4 4)" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="2.4" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 58 38" to="360 58 38" dur="18s" repeatCount="indefinite"/></path></g><circle cx="100" cy="14" r="7" fill="url(#gSun)" filter="url(#glow)"/>`
         );
       })(),
+      SUNI,
     ][i],
   orb: (o) =>
     ({
@@ -626,6 +727,7 @@ const ICON = {
         .join(
           "",
         )}</g><circle cx="60" cy="34" r="11" fill="url(#gSun)"/><rect x="86" y="46" width="24" height="16" rx="2" fill="url(#gM)" stroke="#7b8db8" stroke-width=".6"/><circle cx="98" cy="54" r="4" fill="#0b1a3a" stroke="#ffcf6b" stroke-width=".6"/>`,
+      CORI,
     ][i],
   gnd: (g, i) =>
     hill +
@@ -732,7 +834,7 @@ function viz() {
     n = S.ins.size,
     slots = [
       [
-        "Launch · " + VEH[S.veh].n.split(" ").slice(-2).join(" "),
+        "Launch · " + VEH[S.veh].n.replace(/^(ULA|SpaceX|Rocket Lab) /, ""),
         ICON.veh(0, S.veh),
       ],
       [
@@ -767,13 +869,110 @@ function viz() {
   );
 }
 const TIPS = [
-  "Tip: the objective decides which orbits make sense and sets your budget and lifetime targets. Each segment then spends part of that budget.",
-  "Tip: Launch segment. Higher and farther orbits cut what a rocket can carry. The Atlas V 401 launched both Landsat 9 and LRO.",
-  "Tip: Space segment. The bus sets mass and lifetime, solar arrays must cover every load, and instruments only earn full science if they suit your objective.",
-  "Tip: Ground segment. A spacecraft can only send data when a station can see it. More stations means more contact time, which means more data returned.",
-  "Tip: User segment. Data only creates value when people can analyse and use it. Wider access boosts impact but costs money.",
-  "Tip: no single perfect answer exists. Try different combinations and compare scores.",
+  "Start with the need and goals. They set your budget, lifetime and orbit. Begin with the end in mind: who will use the data?",
+  "Farther orbits reduce what a rocket can lift.",
+  "Power must cover every load. Instruments must suit the objective.",
+  "More contact time means more data returned.",
+  "Begin with the end in mind: decide what data users need, then work backward.",
+  "There is no single perfect design. Try again.",
 ];
+// ---- From NASA "Design and Develop Science Missions" (Mar 2025) ----
+const EX = [
+  {
+    n: "PUNCH",
+    d: "Four small satellites image the Sun’s corona in 3D.",
+    u: "https://science.nasa.gov/mission/punch/",
+  },
+  {
+    n: "PILOT",
+    d: "A fleet of 34 satellites studies plasma around Earth’s magnetosphere.",
+    u: "https://advancedspace.com/pilot-magnetosphere-science-missiondesign/",
+  },
+  {
+    n: "Dawn",
+    d: "First spacecraft to orbit two bodies: Vesta and Ceres.",
+    u: "https://exploreintrosems.stanford.edu/news/aa-118n-how-design-space-mission-concept-execution",
+  },
+  {
+    n: "Mars Moon Sampler",
+    d: "Brings samples home to learn where Phobos and Deimos came from.",
+    u: "https://www1.grc.nasa.gov/facilities/compass-lab/designs-by-type/",
+  },
+  {
+    n: "Space Launch System",
+    d: "Heavy-lift rocket for exploration goals.",
+    u: "https://ntrs.nasa.gov/api/citations/20130013034/downloads/20130013034.pdf",
+  },
+  {
+    n: "Artemis",
+    d: "Exploration program for long stays on the Moon.",
+    u: "https://en.wikipedia.org/wiki/Artemis_program",
+  },
+];
+function reqs(c) {
+  return [
+    [
+      c.mass <= c.cap,
+      `Mass ≤ ${c.cap.toLocaleString()} kg (rocket limit)`,
+      "add up the part masses",
+    ],
+    [
+      c.powUse <= c.gen,
+      `Power use ≤ ${c.gen} W`,
+      "add up the loads, compare to array output",
+    ],
+    [
+      c.data <= c.down,
+      `Return all ${c.data} Gb/day of data`,
+      "compare data made to data sent down",
+    ],
+    [
+      c.life >= c.months,
+      `Work for ${c.months} months`,
+      "compare design life to mission length",
+    ],
+    [c.cost <= c.budget, `Cost ≤ $${c.budget}M`, "add up the segment costs"],
+    [c.orbOK, "Orbit suits the objective", "check the objective’s orbit list"],
+    [
+      c.misfit == 0,
+      "Every instrument suits the objective",
+      "check each instrument’s fit",
+    ],
+  ];
+}
+function extras(c) {
+  const o = c.o;
+  $("brief").innerHTML =
+    `<div class="ref">${o.disc} · mission need</div><p class="briefp">${o.need}</p><div class="tags">${o.goals.map((g, i) => `<span>Goal ${i + 1}: ${g}</span>`).join("")}</div>`;
+  const ins = [...S.ins].map((i) => INS[i].n.replace(/ \(.*\)/, ""));
+  $("conops").innerHTML = [
+    [
+      "Launch",
+      `${c.v.n} lifts ${c.mass.toLocaleString()} kg to the ${c.orb.n.toLowerCase()} (${c.orb.alt}).`,
+    ],
+    [
+      "Operate",
+      `The ${BUS[S.bus].n.toLowerCase()} runs ${ins.length ? ins.join(", ") : "no instruments"} for ${c.life} months.`,
+    ],
+    [
+      "Ground",
+      `${c.g.n} gets about ${c.hours} h/day of contact. ${c.k.n} runs the mission.`,
+    ],
+    ["Users", `${c.u.n}: ${c.u.users}.`],
+  ]
+    .map((x, i) => `<div><b>${i + 1}. ${x[0]}</b><br>${x[1]}</div>`)
+    .join("");
+  $("reqs").innerHTML = reqs(c)
+    .map(
+      (r) =>
+        `<div class="chk ${r[0] ? "ok" : "bad"}">${r[0] ? "✓" : "✗"} ${r[1]}<span class="ver"> · verify: ${r[2]}</span></div>`,
+    )
+    .join("");
+  $("ex").innerHTML = EX.map(
+    (e) =>
+      `<a class="opt" href="${e.u}" target="_blank" rel="noopener"><h3>${e.n}</h3><p>${e.d}</p></a>`,
+  ).join("");
+}
 function render() {
   const c = calc(),
     cs = [null, c.seg.launch, c.seg.space, c.seg.ground, c.seg.user, null];
@@ -789,7 +988,12 @@ function render() {
     OBJ,
     (i) => i == S.obj,
     (i) => (S.obj = i),
-    (o) => [`$${o.budget}M`, `${o.months} mo`, "orbit: " + MAP[o.id].join("/")],
+    (o) => [
+      `$${o.budget}M`,
+      `${o.months} mo`,
+      "orbit: " + MAP[o.id].join("/"),
+      o.disc,
+    ],
   );
   fill(
     "g-orb",
@@ -887,10 +1091,11 @@ function render() {
   });
   $("team").innerHTML = SEGS.map(
     (s, i) =>
-      `<div class="opt" style="flex:1 1 200px;cursor:default"><h3>Player ${i + 1}</h3><p>${s.role} · ${s.n}</p></div>`,
+      `<div class="opt" style="flex:1 1 200px;cursor:default"><h3>Player ${i + 1}</h3><p>${s.role}</p></div>`,
   ).join("");
   $("tip").textContent = TIPS[S.tab];
   $("viz").innerHTML = viz();
+  extras(c);
   hud();
 }
 function simulate() {
@@ -903,56 +1108,56 @@ function simulate() {
   add(
     c.mass <= c.cap,
     c.mass <= c.cap
-      ? `Launch: ${c.mass.toLocaleString()} kg fits the ${c.cap.toLocaleString()} kg limit for this orbit.`
-      : `Launch failed: ${c.mass.toLocaleString()} kg is more than the ${c.cap.toLocaleString()} kg this rocket can lift to ${c.orb.n}. Remove mass or pick a bigger rocket.`,
+      ? `Launch: ${c.mass.toLocaleString()} of ${c.cap.toLocaleString()} kg.`
+      : `Launch failed: ${c.mass.toLocaleString()} kg exceeds the ${c.cap.toLocaleString()} kg limit.`,
   );
   add(
     c.powUse <= c.gen,
     c.powUse <= c.gen
-      ? "Space: solar output covers all systems."
-      : `Brownout: you need ${c.powUse} W but generate ${c.gen} W. Instruments shut down.`,
+      ? "Power: enough for all systems."
+      : `Power short: need ${c.powUse} W, have ${c.gen} W.`,
   );
   add(
     c.misfit == 0,
     c.misfit == 0
-      ? "Payload: every instrument suits your objective."
-      : `Payload: ${c.misfit} instrument(s) don’t suit this objective and add only 30% of their science value.`,
+      ? "Payload: suits the objective."
+      : `Payload: ${c.misfit} instrument(s) don’t suit the objective (30% value).`,
   );
   add(
     c.data <= c.down,
     c.data <= c.down
-      ? `Ground: about ${c.hours} h/day of contact can return all ${c.data} Gb collected.`
-      : `Data loss: ${c.data} Gb/day collected but only ${c.down} Gb/day can be sent (${c.hours} h of contact). Add ground stations or a faster antenna.`,
+      ? `Data: all ${c.data} Gb/day returned.`
+      : `Data loss: ${c.data} Gb/day collected, ${c.down} sent.`,
   );
   add(
     c.k.rel >= 1,
     c.k.rel >= 1
-      ? "Ground: 24/7 mission control can react to problems at once."
-      : "Ground: a part-time team reacts slowly to faults, which lowers reliability.",
+      ? "Control: fast fixes."
+      : "Control: part-time team lowers reliability.",
   );
   add(
     c.u.mult >= 1,
     c.u.mult >= 1
-      ? `User: ${c.u.users} can analyse and apply the data.`
-      : "User: few people can use the data, so its impact is limited.",
+      ? `Users: ${c.u.users.replace(" users", "")} reached.`
+      : "Users: limited reach.",
   );
   add(
     c.orbOK,
     c.orbOK
-      ? "Orbit: well suited to your objective."
-      : "Orbit mismatch: this orbit cannot reach the objective’s targets well.",
+      ? "Orbit suits the objective."
+      : "Orbit doesn’t suit the objective.",
   );
   add(
     c.life >= c.months,
     c.life >= c.months
-      ? "Lifetime: spacecraft outlasts the planned mission."
-      : `Lifetime: lasts ${c.life} of ${c.months} months planned.`,
+      ? `Lifetime: ${c.life} of ${c.months} mo.`
+      : `Lifetime too short: ${c.life} of ${c.months} mo.`,
   );
   add(
     c.cost <= c.budget,
     c.cost <= c.budget
-      ? `Budget: $${c.budget - c.cost}M left over.`
-      : `Over budget by $${c.cost - c.budget}M. The mission was cancelled.`,
+      ? `Budget: $${c.budget - c.cost}M left.`
+      : `Over budget by $${c.cost - c.budget}M.`,
   );
   let s =
     c.sci *
@@ -977,6 +1182,7 @@ function simulate() {
           `<div><b>${names[i]} segment</b><br><span class="mono">$${Math.round(v)}M</span></div>`,
       )
       .join("")}</div>` +
+    `<h3 class="subh">Build &amp; verify: does the design meet each requirement?</h3>` +
     checks.join("");
 }
 $("tabs").onclick = (e) => {
@@ -994,6 +1200,135 @@ $("mode").onclick = (e) => {
   [...$("mode").children].forEach((x) => x.classList.toggle("on", x == b));
   $("team").style.display = S.mode == "team" ? "flex" : "none";
 };
+// Side panel with details and fit verdicts (hover or keyboard focus)
+const info = $("insinfo");
+function hideInfo() {
+  info.classList.remove("on");
+}
+const orbNames = (o) =>
+  MAP[o.id]
+    .map((id) => ORB.find((y) => y.id == id).n.toLowerCase())
+    .join(" or ");
+// What would happen if this option were picked, with everything else as it is now
+function fitOf(k, i) {
+  const o = OBJ[S.obj];
+  if (k == "obj") return null;
+  if (k == "ins") {
+    const n = INS[i];
+    return n.fit.includes(o.id)
+      ? ["ok", "Suits your objective."]
+      : ["warn", `Weak fit for ${o.n} (30% value).`];
+  }
+  const keep = S[k];
+  S[k] = i;
+  const c = calc();
+  S[k] = keep;
+  const x = LISTS[k][i],
+    L = (n) => n.toLocaleString();
+  switch (k) {
+    case "orb":
+      return c.orbOK
+        ? ["ok", `Suits ${o.n}.`]
+        : ["no", `Doesn’t suit ${o.n}. It needs ${orbNames(o)}.`];
+    case "veh": {
+      if (!MAP[o.id].some((id) => x.cap[id] > 0))
+        return ["no", `Can’t reach the orbit ${o.n} needs.`];
+      const cap = x.cap[c.orb.id];
+      if (!cap)
+        return ["no", `Can’t reach the ${c.orb.n.toLowerCase()} you picked.`];
+      return c.mass > cap
+        ? [
+            "no",
+            `Too heavy: your design is ${L(c.mass)} kg, it lifts ${L(cap)} kg.`,
+          ]
+        : ["ok", `Lifts your ${L(c.mass)} kg design (limit ${L(cap)} kg).`];
+    }
+    case "bus":
+      return c.life >= c.months
+        ? ["ok", `Lasts ${c.life} months. ${o.n} needs ${c.months}.`]
+        : [
+            "no",
+            `Too short: lasts ${c.life} months, ${o.n} needs ${c.months}.`,
+          ];
+    case "pow":
+      return c.powUse <= c.gen
+        ? ["ok", `Makes ${L(c.gen)} W. Your design uses ${L(c.powUse)} W.`]
+        : [
+            "no",
+            `Too little: makes ${L(c.gen)} W, your design needs ${L(c.powUse)} W.`,
+          ];
+    case "com":
+    case "gnd":
+      return c.data <= c.down
+        ? [
+            "ok",
+            `Sends back ${L(c.down)} Gb/day. Your instruments make ${L(c.data)}.`,
+          ]
+        : [
+            "warn",
+            `Sends only ${L(c.down)} Gb/day. Your instruments make ${L(c.data)}, so data is lost.`,
+          ];
+    case "ctl":
+      return x.rel >= 1
+        ? ["ok", "Fast fixes. Full reliability."]
+        : ["warn", `Slower to react. Score ×${x.rel}.`];
+    case "usr":
+      return x.mult >= 1
+        ? ["ok", `Reaches ${x.users}. Score ×${x.mult}.`]
+        : ["warn", `Limited reach. Score ×${x.mult}.`];
+  }
+}
+function showInfo(card, k) {
+  const i = [...card.parentNode.children].indexOf(card),
+    x = LISTS[k][i];
+  if (!x) return;
+  const f = fitOf(k, i),
+    strip = (s) => s.replace(/ \(.*\)/, "");
+  let b = `<h4>${x.n}</h4><p>${x.use || x.need}</p>`;
+  if (k == "ins")
+    b += `<div class="k">Measures</div><p>${x.meas}</p><div class="k">Best for</div><p>${x.fit.map((id) => OBJ.find((y) => y.id == id).n).join(", ")}</p>`;
+  if (k == "obj")
+    b += `<div class="k">Goals</div><p>${x.goals.join(" · ")}</p><div class="k">Needs orbit</div><p>${orbNames(x)}</p><div class="k">Instruments that suit it</div><p>${INS.filter(
+      (n) => n.fit.includes(x.id),
+    )
+      .map((n) => strip(n.n))
+      .join(", ")}</p>`;
+  if (f)
+    b += `<p class="fit${f[0]}">${{ ok: "✓", warn: "⚠", no: "✗" }[f[0]]} ${f[1]}</p>`;
+  const sp = [...card.querySelectorAll(".tags span")]
+    .map((s) => s.textContent)
+    .join(" · ");
+  if (sp) b += `<div class="k">Specs</div><p class="mono">${sp}</p>`;
+  if (x.ref) b += `<p class="ref">${x.ref}</p>`;
+  info.innerHTML = b;
+  const r = card.getBoundingClientRect(),
+    w = 280,
+    g = 12,
+    h = info.offsetHeight;
+  let px = r.right + g,
+    py = r.top;
+  if (px + w > innerWidth - 8) px = r.left - g - w;
+  if (px < 8) {
+    px = Math.max(8, Math.min(r.left, innerWidth - w - 8));
+    py = r.bottom + 8;
+    if (py + h > innerHeight - 8) py = r.top - h - 8;
+  }
+  py = Math.max(8, Math.min(py, innerHeight - h - 8));
+  info.style.left = px + "px";
+  info.style.top = py + "px";
+  info.classList.add("on");
+}
+for (const id in KIND) {
+  const g = $(id);
+  for (const ev of ["mouseover", "focusin"])
+    g.addEventListener(ev, (e) => {
+      const c = e.target.closest(".opt");
+      if (c) showInfo(c, KIND[id]);
+    });
+  for (const ev of ["mouseleave", "focusout"]) g.addEventListener(ev, hideInfo);
+}
+addEventListener("scroll", hideInfo, true);
+
 render();
 
 // Starfield: three layers drifting left forever
