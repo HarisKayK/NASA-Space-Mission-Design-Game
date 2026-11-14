@@ -1,0 +1,18 @@
+[
+  {
+    "n": "Launch segment",
+    "d": "Gets the mission into space."
+  },
+  {
+    "n": "Space segment",
+    "d": "The spacecraft and instruments."
+  },
+  {
+    "n": "Ground segment",
+    "d": "Stations and mission control."
+  },
+  {
+    "n": "User segment",
+    "d": "People who use the data."
+  }
+]

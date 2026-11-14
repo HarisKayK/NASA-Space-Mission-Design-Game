@@ -1,0 +1,62 @@
+[
+  {
+    "id": "earth",
+    "n": "Earth observation",
+    "d": "Landsat 9 style land imaging.",
+    "disc": "Earth science",
+    "need": "Track changes to land over time so people can manage farms, water and cities.",
+    "goals": [
+      "Image the land in several colours",
+      "Cover the whole globe regularly",
+      "Share the data freely"
+    ],
+    "orbits": ["sso", "leo"],
+    "budget": 1000,
+    "months": 60
+  },
+  {
+    "id": "moon",
+    "n": "Lunar science",
+    "d": "LRO style Moon mapping.",
+    "disc": "Planetary science",
+    "need": "Map the Moon so future missions know where to land and what hazards exist.",
+    "goals": [
+      "Measure surface height and heat",
+      "Take sharp surface images",
+      "Measure radiation near the Moon"
+    ],
+    "orbits": ["moon"],
+    "budget": 700,
+    "months": 12
+  },
+  {
+    "id": "weather",
+    "n": "Weather monitoring",
+    "d": "GOES style weather watch.",
+    "disc": "Earth science",
+    "need": "Watch one region all the time so weather warnings come early.",
+    "goals": [
+      "Stay fixed over one region",
+      "Image the whole disk often",
+      "Watch the Sun’s activity too"
+    ],
+    "orbits": ["geo"],
+    "budget": 1300,
+    "months": 120
+  },
+  {
+    "id": "solar",
+    "n": "Solar science",
+    "d": "PUNCH style Sun corona imaging.",
+    "disc": "Heliophysics",
+    "need": "Learn how the Sun’s outer atmosphere becomes the solar wind that fills the solar system.",
+    "goals": [
+      "Image the Sun’s corona",
+      "Keep the lighting steady",
+      "Send the images to scientists"
+    ],
+    "orbits": ["sso"],
+    "budget": 400,
+    "months": 24
+  }
+]

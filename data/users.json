@@ -1,0 +1,28 @@
+[
+  {
+    "n": "Mission science team only",
+    "use": "Only the instrument teams use the data, so few people benefit.",
+    "d": "Only the instrument teams use the data.",
+    "cost": 15,
+    "mult": 0.8,
+    "users": "~100 users"
+  },
+  {
+    "n": "Public science archive",
+    "use": "The data goes to an open archive that any researcher can use, like NASA’s Planetary Data System.",
+    "d": "Data goes to an open archive for researchers.",
+    "cost": 35,
+    "mult": 1,
+    "users": "1,000s of users",
+    "ref": "Like NASA’s Planetary Data System, where LRO data is archived."
+  },
+  {
+    "n": "Free and open data portal",
+    "use": "Anyone can download the data, like Landsat data from USGS. This reaches the most people.",
+    "d": "Anyone can download and use the data.",
+    "cost": 80,
+    "mult": 1.25,
+    "users": "millions of users",
+    "ref": "Landsat data is free to the public through USGS (9 million+ scenes)."
+  }
+]

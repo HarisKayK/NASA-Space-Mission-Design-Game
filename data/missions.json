@@ -1,0 +1,32 @@
+[
+  {
+    "n": "PUNCH",
+    "d": "Four small satellites image the Sun’s corona in 3D.",
+    "u": "https://science.nasa.gov/mission/punch/"
+  },
+  {
+    "n": "PILOT",
+    "d": "A fleet of 34 satellites studies plasma around Earth’s magnetosphere.",
+    "u": "https://advancedspace.com/pilot-magnetosphere-science-missiondesign/"
+  },
+  {
+    "n": "Dawn",
+    "d": "First spacecraft to orbit two bodies: Vesta and Ceres.",
+    "u": "https://exploreintrosems.stanford.edu/news/aa-118n-how-design-space-mission-concept-execution"
+  },
+  {
+    "n": "Mars Moon Sampler",
+    "d": "Brings samples home to learn where Phobos and Deimos came from.",
+    "u": "https://www1.grc.nasa.gov/facilities/compass-lab/designs-by-type/"
+  },
+  {
+    "n": "Space Launch System",
+    "d": "Heavy-lift rocket for exploration goals.",
+    "u": "https://ntrs.nasa.gov/api/citations/20130013034/downloads/20130013034.pdf"
+  },
+  {
+    "n": "Artemis",
+    "d": "Exploration program for long stays on the Moon.",
+    "u": "https://en.wikipedia.org/wiki/Artemis_program"
+  }
+]

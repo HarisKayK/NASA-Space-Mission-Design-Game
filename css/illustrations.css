@@ -1,0 +1,194 @@
+/* Illustrations: SVG pictures, the mission diagram and their animations. */
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.ico {
+  aspect-ratio: 120/72;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(1px 1px at 12% 22%, #fff9, transparent),
+    radial-gradient(1px 1px at 78% 14%, #fff8, transparent),
+    radial-gradient(1.4px 1.4px at 88% 70%, #fffb, transparent),
+    radial-gradient(1px 1px at 30% 80%, #fff7, transparent),
+    radial-gradient(120% 90% at 50% 40%, #16254d, #070c1c);
+}
+
+.ico .svg {
+  height: 100%;
+}
+
+.viz-card {
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  background: radial-gradient(
+    120% 120% at 50% 0,
+    rgba(30, 50, 110, 0.55),
+    rgba(8, 12, 28, 0.8)
+  );
+}
+
+.vizwrap {
+  overflow-x: auto;
+}
+
+.svg.viz {
+  min-width: 560px;
+}
+
+.svg text {
+  fill: var(--dim);
+  font:
+    8px "JetBrains Mono",
+    monospace;
+}
+
+.fl8 {
+  animation: fl8 4.5s ease-in-out infinite alternate;
+}
+
+.flame {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: fl 0.16s ease-in-out infinite alternate;
+}
+
+.sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sway 7s ease-in-out infinite alternate;
+}
+
+.wv {
+  animation: wv 2.1s ease-out infinite;
+  opacity: 0;
+}
+
+.gl {
+  opacity: 0;
+  animation: gl 5s ease-in-out infinite;
+}
+
+.pl {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: pl 3s ease-in-out infinite;
+}
+
+.dsh {
+  animation: dsh 1.6s linear infinite;
+}
+
+.ln {
+  animation: dsh 4s linear infinite;
+}
+
+.flowln {
+  animation: dsh 1.2s linear infinite;
+}
+
+.scn {
+  animation: scn 4s ease-in-out infinite alternate;
+}
+
+.scn2 {
+  animation: scn2 3.5s ease-in-out infinite alternate;
+}
+
+.fs {
+  animation: fs 3s ease-in-out infinite;
+}
+
+@keyframes fl {
+  to {
+    transform: scale(0.9, 1.3);
+  }
+}
+
+@keyframes fl8 {
+  to {
+    transform: translateY(-1.8px);
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes wv {
+  0% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  35% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes gl {
+  0%,
+  60%,
+  100% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes pl {
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+@keyframes dsh {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes scn {
+  to {
+    transform: translateX(74px);
+  }
+}
+
+@keyframes scn2 {
+  to {
+    transform: translateY(32px);
+  }
+}
+
+@keyframes fs {
+  0%,
+  85%,
+  100% {
+    opacity: 0.2;
+  }
+  90% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svg * {
+    animation: none !important;
+  }
+}

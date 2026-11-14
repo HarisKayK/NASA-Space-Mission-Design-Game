@@ -1,0 +1,38 @@
+[
+  {
+    "n": "Small solar array",
+    "use": "Small solar panels. Light and cheap, but they make little power.",
+    "d": "Enough for a small satellite.",
+    "mass": 30,
+    "cost": 15,
+    "gen": 300,
+    "ref": "≈ estimated."
+  },
+  {
+    "n": "LRO-class solar array",
+    "use": "Medium panels. Enough power for a few instruments on a science orbiter.",
+    "d": "Typical science orbiter.",
+    "mass": 80,
+    "cost": 40,
+    "gen": 685,
+    "ref": "LRO’s spacecraft power was ~685 W."
+  },
+  {
+    "n": "Landsat-class solar array",
+    "use": "Large panels for power-hungry imagers.",
+    "d": "Large array for power-hungry imagers.",
+    "mass": 300,
+    "cost": 90,
+    "gen": 3750,
+    "ref": "Landsat 8: 9 × 0.4 m array, 3,750 W at end of mission."
+  },
+  {
+    "n": "GOES-R-class solar array",
+    "use": "The largest panels here, made for big geostationary satellites.",
+    "d": "Largest option for big geostationary satellites.",
+    "mass": 350,
+    "cost": 100,
+    "gen": 4000,
+    "ref": "GOES-R: more than 4,000 W at end of life."
+  }
+]

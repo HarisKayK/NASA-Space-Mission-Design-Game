@@ -1,0 +1,16 @@
+[
+  {
+    "n": "Part-time operations team",
+    "use": "A small team that works set hours. It is cheap, but slow to react when something goes wrong.",
+    "d": "Cheap, but slow to react when problems appear.",
+    "cost": 20,
+    "rel": 0.85
+  },
+  {
+    "n": "24/7 mission control",
+    "use": "A team that is always on watch and fixes problems quickly. NASA teams stay on console during key operations in case of problems.",
+    "d": "Always watching, quick fixes; costs more.",
+    "cost": 60,
+    "rel": 1
+  }
+]

@@ -6,12 +6,15 @@
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
-    <title>Mission Control · Space Mission Design Game</title>
+    <title>Nebula Nomads · Space Mission Design Game</title>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/illustrations.css" />
+    <link rel="stylesheet" href="css/info-panel.css" />
   </head>
   <body>
     <svg width="0" height="0" style="position: absolute" aria-hidden="true">
@@ -90,12 +93,8 @@
     <div class="wrap">
       <header>
         <div>
-          <div class="logo">◉ MISSION<span>CONTROL</span></div>
+          <div class="logo">◉ NEBULA <span>NOMADS</span></div>
           <div class="sub">Space Mission Design Game</div>
-        </div>
-        <div class="seg" id="mode">
-          <button class="on" data-m="solo">Solo</button
-          ><button data-m="team">Team (up to 4)</button>
         </div>
       </header>
 
@@ -121,7 +120,6 @@
           <div id="reqs"></div>
           <h3 class="subh">Real missions to study</h3>
           <div class="grid" id="ex"></div>
-          <div id="team" class="row" style="display: none"></div>
         </section>
 
         <section class="panel card" id="p-1">
@@ -177,6 +175,11 @@
       </main>
     </div>
     <div id="insinfo" role="tooltip"></div>
-    <script src="script.js"></script>
+    <script>
+      if (location.protocol === "file:")
+        document.getElementById("hud").innerHTML =
+          '<div class="card">Open this page through a local web server (see README.md). Browsers block data files when a page is opened by double-clicking it.</div>';
+    </script>
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>

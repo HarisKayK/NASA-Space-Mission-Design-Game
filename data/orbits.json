@@ -1,0 +1,46 @@
+[
+  {
+    "id": "leo",
+    "n": "Low Earth orbit",
+    "use": "A close, fast orbit about 500 km up. You see fine detail and a lap takes about 95 minutes, but a ground station sees you only briefly each pass.",
+    "d": "Close views, short passes.",
+    "alt": "≈500 km",
+    "per": "95 min",
+    "life": 0.8,
+    "cf": 1,
+    "ref": "Period calculated from orbital physics."
+  },
+  {
+    "id": "sso",
+    "n": "Sun-synchronous orbit",
+    "use": "A tilted orbit that passes over each place at the same local time every day. Lighting stays the same, so pictures can be compared over months and years. Landsat uses it.",
+    "d": "Steady lighting, global coverage.",
+    "alt": "705 km",
+    "per": "99 min",
+    "life": 1,
+    "cf": 1,
+    "ref": "Landsat 9: 705 km, 98.2° inclination, 99-minute period."
+  },
+  {
+    "id": "geo",
+    "n": "Geostationary orbit",
+    "use": "An orbit so high that one lap takes 24 hours, the same as Earth’s spin. The spacecraft stays above one spot, so it can watch the weather there all the time.",
+    "d": "Fixed over one spot.",
+    "alt": "35,786 km",
+    "per": "24 h",
+    "life": 1,
+    "cf": 8,
+    "ref": "GOES weather satellites. Rockets reach it through a transfer orbit (GTO)."
+  },
+  {
+    "id": "moon",
+    "n": "Lunar polar orbit",
+    "use": "A low orbit over the Moon’s poles. As the Moon turns below, the spacecraft sees every part of it. It loses contact when it goes behind the Moon.",
+    "d": "Hidden behind the Moon at times.",
+    "alt": "≈50 km",
+    "per": "113 min",
+    "life": 0.9,
+    "cf": 2,
+    "ref": "LRO’s mapping orbit was ~50 km above the Moon."
+  }
+]

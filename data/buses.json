@@ -1,0 +1,42 @@
+[
+  {
+    "n": "Small satellite bus",
+    "use": "The body of a small satellite. It holds the computer, fuel and frame. It is cheap and light, but lasts only about two years.",
+    "d": "Compact, low cost, short life.",
+    "mass": 250,
+    "cost": 60,
+    "load": 100,
+    "life": 24,
+    "ref": "≈ smallsat-class estimate."
+  },
+  {
+    "n": "LRO-class bus",
+    "use": "A body built to orbit the Moon. It carries extra fuel so it can enter and hold a lunar orbit.",
+    "d": "Lunar orbiter with propellant for the Moon.",
+    "mass": 1869,
+    "cost": 250,
+    "load": 400,
+    "life": 36,
+    "ref": "LRO launch mass 1,916 kg minus the four instruments in the game; ~898 kg of that is fuel. Cost and load ≈ estimated."
+  },
+  {
+    "n": "Landsat-class bus (LEOStar-3)",
+    "use": "A body for Earth-imaging satellites in a 705 km orbit. It points steadily and lasts about five years.",
+    "d": "Earth-observing platform for a 705 km orbit.",
+    "mass": 2071,
+    "cost": 300,
+    "load": 400,
+    "life": 63,
+    "ref": "Landsat 8 bus: 2,071 kg fully fuelled, without instruments; design life 5.25 years. Cost and load ≈ estimated."
+  },
+  {
+    "n": "GOES-R-class bus (A2100)",
+    "use": "A big body for geostationary weather satellites. It has lots of fuel and a 15-year life, but it is heavy and costly.",
+    "d": "Big geostationary bus with lots of fuel.",
+    "mass": 4854,
+    "cost": 450,
+    "load": 600,
+    "life": 180,
+    "ref": "GOES-R launch mass 5,192 kg minus the ABI imager; 15-year design life. Cost and load ≈ estimated."
+  }
+]
