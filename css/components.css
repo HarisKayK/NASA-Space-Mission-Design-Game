@@ -69,9 +69,9 @@ nav button {
 }
 
 nav button.on {
-  background: linear-gradient(90deg, var(--acc), var(--acc2));
-  color: #05070f;
-  border-color: transparent;
+  background: rgba(94, 161, 255, 0.15);
+  color: var(--text);
+  border-color: var(--acc);
 }
 
 .panel {
@@ -293,94 +293,740 @@ a.opt {
   gap: 12px;
   flex-wrap: wrap;
 }
-.playback-head h3 { margin: 3px 0 0; font-size: 1.15rem; }
+.playback-head h3 {
+  margin: 3px 0 0;
+  font-size: 1.15rem;
+}
 .mission-state {
   border-radius: 999px;
   padding: 5px 10px;
-  font: 700 0.68rem "JetBrains Mono", monospace;
+  font:
+    700 0.68rem "JetBrains Mono",
+    monospace;
   letter-spacing: 0.04em;
 }
-.mission-state.good { color: var(--ok); background: rgba(80, 220, 150, 0.1); }
-.mission-state.caution { color: var(--warn); background: rgba(255, 190, 80, 0.1); }
-.playback-intro { color: var(--dim); font-size: 0.82rem; margin: 10px 0 16px; }
-.timeline { list-style: none; padding: 0; margin: 0; }
-.timeline-step { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; position: relative; padding-bottom: 16px; }
-.timeline-step:not(:last-child)::after { content: ""; position: absolute; left: 14px; top: 29px; bottom: 0; width: 1px; background: var(--line); }
-.timeline-marker { z-index: 1; width: 29px; height: 29px; display: grid; place-items: center; border-radius: 50%; font-weight: 800; background: rgba(255,255,255,.07); border: 1px solid var(--line); }
-.timeline-step.success .timeline-marker { color: var(--ok); border-color: var(--ok); }
-.timeline-step.warning .timeline-marker { color: var(--warn); border-color: var(--warn); }
-.timeline-step.failed .timeline-marker { color: var(--bad); border-color: var(--bad); }
-.timeline-step.blocked .timeline-marker { color: var(--dim); }
-.timeline-content { min-width: 0; padding: 2px 0 0; }
-.timeline-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
-.timeline-top b { font-size: .92rem; }
-.timeline-time { color: var(--dim); font: .72rem "JetBrains Mono", monospace; white-space: nowrap; }
-.timeline-status { display: inline-block; margin: 4px 0; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
-.timeline-status.success { color: var(--ok); }
-.timeline-status.warning { color: var(--warn); }
-.timeline-status.failed { color: var(--bad); }
-.timeline-status.blocked { color: var(--dim); }
-.timeline-content p, .incident p { margin: 0; color: var(--dim); font-size: .82rem; line-height: 1.5; }
-.incident-panel { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 14px; }
-.incident-panel h3 { font-size: .95rem; margin: 0 0 10px; }
-.incident-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px; }
-.incident { border: 1px solid rgba(255, 190, 80, .2); background: rgba(255, 190, 80, .045); border-radius: 9px; padding: 10px; }
-.incident b { display: block; font-size: .82rem; margin-bottom: 4px; color: var(--warn); }
-.success-note { padding: 11px 13px; border-radius: 9px; color: var(--ok); background: rgba(80, 220, 150, .07); font-size: .84rem; }
+.mission-state.good {
+  color: var(--ok);
+  background: rgba(80, 220, 150, 0.1);
+}
+.mission-state.caution {
+  color: var(--warn);
+  background: rgba(255, 190, 80, 0.1);
+}
+.playback-intro {
+  color: var(--dim);
+  font-size: 0.82rem;
+  margin: 10px 0 16px;
+}
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.timeline-step {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 10px;
+  position: relative;
+  padding-bottom: 16px;
+}
+.timeline-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 29px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+.timeline-marker {
+  z-index: 1;
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--line);
+}
+.timeline-step.success .timeline-marker {
+  color: var(--ok);
+  border-color: var(--ok);
+}
+.timeline-step.warning .timeline-marker {
+  color: var(--warn);
+  border-color: var(--warn);
+}
+.timeline-step.failed .timeline-marker {
+  color: var(--bad);
+  border-color: var(--bad);
+}
+.timeline-step.blocked .timeline-marker {
+  color: var(--dim);
+}
+.timeline-content {
+  min-width: 0;
+  padding: 2px 0 0;
+}
+.timeline-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+.timeline-top b {
+  font-size: 0.92rem;
+}
+.timeline-time {
+  color: var(--dim);
+  font:
+    0.72rem "JetBrains Mono",
+    monospace;
+  white-space: nowrap;
+}
+.timeline-status {
+  display: inline-block;
+  margin: 4px 0;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+.timeline-status.success {
+  color: var(--ok);
+}
+.timeline-status.warning {
+  color: var(--warn);
+}
+.timeline-status.failed {
+  color: var(--bad);
+}
+.timeline-status.blocked {
+  color: var(--dim);
+}
+.timeline-content p,
+.incident p {
+  margin: 0;
+  color: var(--dim);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.incident-panel {
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+  padding-top: 14px;
+}
+.incident-panel h3 {
+  font-size: 0.95rem;
+  margin: 0 0 10px;
+}
+.incident-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 8px;
+}
+.incident {
+  border: 1px solid rgba(255, 190, 80, 0.2);
+  background: rgba(255, 190, 80, 0.045);
+  border-radius: 9px;
+  padding: 10px;
+}
+.incident b {
+  display: block;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+  color: var(--warn);
+}
+.success-note {
+  padding: 11px 13px;
+  border-radius: 9px;
+  color: var(--ok);
+  background: rgba(80, 220, 150, 0.07);
+  font-size: 0.84rem;
+}
 @media (max-width: 520px) {
-  .mission-playback { padding: 12px; }
-  .timeline-top { align-items: flex-start; flex-direction: column; gap: 2px; }
+  .mission-playback {
+    padding: 12px;
+  }
+  .timeline-top {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
 }
 
 /* Animated visual storytelling for the mission playback. */
 .mission-scene {
-  position: relative; overflow: hidden; margin: 16px 0 10px; min-height: 210px;
-  border: 1px solid rgba(132, 160, 255, .2); border-radius: 12px;
-  background: radial-gradient(ellipse at 50% 100%, rgba(54, 100, 190, .24), transparent 58%), #080d20;
+  position: relative;
+  overflow: hidden;
+  margin: 16px 0 10px;
+  min-height: 250px;
+  border: 1px solid rgba(132, 160, 255, 0.18);
+  border-radius: 14px;
+  background:
+    radial-gradient(
+      ellipse at 50% 105%,
+      rgba(54, 100, 190, 0.22),
+      transparent 58%
+    ),
+    linear-gradient(145deg, #0b1227, #101a33 62%, #0a1124);
 }
-.scene-topline { position: absolute; z-index: 2; top: 12px; left: 14px; right: 14px; display: flex; justify-content: space-between; gap: 12px; color: #9baedb; font: 700 .65rem "JetBrains Mono", monospace; letter-spacing: .08em; }
-.mission-art { display: block; width: 100%; height: 210px; }
-.scene-caption { position: absolute; left: 14px; bottom: 18px; color: #dbe6ff; font-size: .78rem; text-shadow: 0 1px 8px #080d20; }
-.scene-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.09); }
-.scene-progress span { display: block; width: 16.66%; height: 100%; background: #72d7ff; transition: width .45s ease; box-shadow: 0 0 12px #72d7ff; }
-.rocket-object { transform-origin: 180px 180px; animation: rocket-ready 2s ease-in-out infinite; }
-.rocket-flame { transform-origin: 181px 205px; animation: flame-flicker .18s ease-in-out infinite alternate; }
-.satellite-object { opacity: .55; transform-origin: 389px 105px; transition: opacity .5s ease; }
-.ground-object { opacity: .35; transition: opacity .5s ease; }
-.data-beam { opacity: 0; stroke-dashoffset: 0; }
-.orbit-track { transition: stroke-opacity .5s ease; }
-.stage-0 .rocket-object { animation: rocket-ascent 2.6s ease-in forwards; }
-.stage-0 .satellite-object { opacity: 0; }
-.stage-1 .rocket-object { opacity: 0; }
-.stage-1 .satellite-object, .stage-2 .satellite-object, .stage-3 .satellite-object, .stage-4 .satellite-object, .stage-5 .satellite-object { opacity: 1; animation: satellite-float 4s ease-in-out infinite; }
-.stage-1 .orbit-track, .stage-2 .orbit-track, .stage-3 .orbit-track, .stage-4 .orbit-track, .stage-5 .orbit-track { stroke-opacity: .85; animation: orbit-pulse 3s ease-in-out infinite; }
-.stage-2 .satellite-object { animation: deploy-panels .9s ease-out both, satellite-float 4s 1s ease-in-out infinite; }
-.stage-3 .satellite-object { filter: drop-shadow(0 0 8px rgba(255, 207, 125, .65)); }
-.stage-4 .ground-object, .stage-5 .ground-object { opacity: 1; }
-.stage-4 .data-beam, .stage-5 .data-beam { opacity: 1; animation: data-transfer 1.1s linear infinite; }
-.stage-5 .data-beam { stroke: #ffcf7d; }
-.playback-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 8px 0 16px; }
-.playback-hint { color: var(--dim); font-size: .72rem; }
-.btn-replay { padding: 7px 11px; font-size: .75rem; }
-.btn-replay.finished { border-color: var(--ok); color: var(--ok); }
-.timeline-step { transition: background .3s ease, transform .3s ease; border-radius: 9px; padding-left: 4px; padding-right: 4px; }
-.timeline-step.playback-current { background: rgba(114, 215, 255, .075); transform: translateX(3px); }
-.timeline-step.playback-current .timeline-marker { box-shadow: 0 0 0 4px rgba(114, 215, 255, .1), 0 0 16px rgba(114, 215, 255, .22); }
-@keyframes rocket-ready { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-@keyframes rocket-ascent { 0% { transform: translate(0,0); } 70% { transform: translate(115px,-100px) rotate(12deg); } 100% { transform: translate(150px,-150px) rotate(18deg); opacity: 0; } }
-@keyframes flame-flicker { from { transform: scaleY(.75); opacity: .75; } to { transform: scaleY(1.25); opacity: 1; } }
-@keyframes satellite-float { 0%,100% { translate: 0 0; } 50% { translate: 0 -5px; } }
-@keyframes deploy-panels { from { scale: .65; } to { scale: 1; } }
-@keyframes orbit-pulse { 0%,100% { stroke-opacity: .45; } 50% { stroke-opacity: .95; } }
-@keyframes data-transfer { to { stroke-dashoffset: -28; } }
+.scene-topline {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #9baedb;
+  font:
+    700 0.65rem "JetBrains Mono",
+    monospace;
+  letter-spacing: 0.08em;
+}
+.mission-art {
+  display: block;
+  width: 100%;
+  height: 218px;
+  margin-top: 22px;
+}
+.scene-caption {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  padding: 0 14px 14px;
+  color: #dbe6ff;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-shadow: none;
+}
+.scene-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.09);
+}
+.scene-progress span {
+  display: block;
+  width: 16.66%;
+  height: 100%;
+  background: #72d7ff;
+  transition: width 0.45s ease;
+  box-shadow: 0 0 12px #72d7ff;
+}
+.rocket-object {
+  transform-origin: 180px 180px;
+  animation: rocket-ready 2s ease-in-out infinite;
+}
+.rocket-flame {
+  transform-origin: 180px 195px;
+  animation: flame-flicker 0.18s ease-in-out infinite alternate;
+}
+.rocket-flame-core {
+  transform-origin: 180px 195px;
+  animation: flame-flicker 0.14s ease-in-out infinite alternate-reverse;
+}
+.satellite-object {
+  opacity: 0.55;
+  transform-origin: 389px 105px;
+  transition: opacity 0.5s ease;
+}
+.ground-object {
+  opacity: 0.35;
+  transition: opacity 0.5s ease;
+}
+.data-beam {
+  opacity: 0;
+  stroke-dashoffset: 0;
+}
+.orbit-track {
+  transition: stroke-opacity 0.5s ease;
+}
+.stage-0 .rocket-object {
+  animation: rocket-ascent 2.6s ease-in forwards;
+}
+.stage-0 .satellite-object {
+  opacity: 0;
+}
+.stage-1 .rocket-object {
+  opacity: 0;
+}
+.stage-1 .satellite-object,
+.stage-2 .satellite-object,
+.stage-3 .satellite-object,
+.stage-4 .satellite-object,
+.stage-5 .satellite-object {
+  opacity: 1;
+  animation: satellite-float 4s ease-in-out infinite;
+}
+.stage-1 .orbit-track,
+.stage-2 .orbit-track,
+.stage-3 .orbit-track,
+.stage-4 .orbit-track,
+.stage-5 .orbit-track {
+  stroke-opacity: 0.58;
+  animation: orbit-pulse 3s ease-in-out infinite;
+}
+.stage-2 .satellite-object {
+  animation:
+    deploy-panels 0.9s ease-out both,
+    satellite-float 4s 1s ease-in-out infinite;
+}
+.stage-3 .satellite-object {
+  filter: drop-shadow(0 0 8px rgba(255, 207, 125, 0.65));
+}
+.stage-4 .ground-object,
+.stage-5 .ground-object {
+  opacity: 1;
+}
+.stage-4 .data-beam,
+.stage-5 .data-beam {
+  opacity: 1;
+  animation: data-transfer 1.1s linear infinite;
+}
+.stage-5 .data-beam {
+  stroke: #ffcf7d;
+}
+.playback-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 16px;
+}
+.playback-hint {
+  color: var(--dim);
+  font-size: 0.72rem;
+}
+.btn-replay {
+  padding: 7px 11px;
+  font-size: 0.75rem;
+}
+.btn-replay.finished {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+.timeline-step {
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+  border-radius: 9px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.timeline-step.playback-current {
+  background: rgba(114, 215, 255, 0.075);
+  transform: translateX(3px);
+}
+.timeline-step.playback-current .timeline-marker {
+  box-shadow:
+    0 0 0 4px rgba(114, 215, 255, 0.1),
+    0 0 16px rgba(114, 215, 255, 0.22);
+}
+@keyframes rocket-ready {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes rocket-ascent {
+  0% {
+    transform: translate(0, 0);
+  }
+  70% {
+    transform: translate(95px, -72px) rotate(7deg);
+  }
+  100% {
+    transform: translate(135px, -112px) rotate(11deg);
+    opacity: 0;
+  }
+}
+@keyframes flame-flicker {
+  from {
+    transform: scaleY(0.75);
+    opacity: 0.75;
+  }
+  to {
+    transform: scaleY(1.25);
+    opacity: 1;
+  }
+}
+@keyframes satellite-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -5px;
+  }
+}
+@keyframes deploy-panels {
+  from {
+    scale: 0.65;
+  }
+  to {
+    scale: 1;
+  }
+}
+@keyframes orbit-pulse {
+  0%,
+  100% {
+    stroke-opacity: 0.45;
+  }
+  50% {
+    stroke-opacity: 0.95;
+  }
+}
+@keyframes data-transfer {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .mission-scene *, .timeline-step { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .mission-scene *,
+  .timeline-step {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
 @media (max-width: 520px) {
-  .mission-art { height: 175px; }
-  .mission-scene { min-height: 175px; }
-  .playback-controls { align-items: flex-start; flex-direction: column; }
+  .mission-art {
+    height: 165px;
+    margin-top: 24px;
+  }
+  .mission-scene {
+    min-height: 215px;
+  }
+  .playback-controls {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
-.launch-failed.stage-0 .rocket-object { animation: rocket-abort 1.4s ease-out both; }
-.launch-failed .satellite-object { opacity: 0 !important; }
-@keyframes rocket-abort { 0% { transform: translateY(0); } 35% { transform: translateY(-18px); } 60%,100% { transform: translateY(-18px); opacity: .35; } }
+.launch-failed.stage-0 .rocket-object {
+  animation: rocket-abort 1.4s ease-out both;
+}
+.launch-failed .satellite-object {
+  opacity: 0 !important;
+}
+@keyframes rocket-abort {
+  0% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-18px);
+  }
+  60%,
+  100% {
+    transform: translateY(-18px);
+    opacity: 0.35;
+  }
+}
+
+/* NASA live-data panel */
+.nasa-data {
+  margin-top: 18px;
+  padding: 18px;
+  overflow: hidden;
+  background: linear-gradient(
+    145deg,
+    rgba(18, 29, 54, 0.94),
+    rgba(10, 17, 34, 0.96)
+  );
+  border-color: rgba(105, 153, 235, 0.28);
+}
+.nasa-data[hidden] {
+  display: none;
+}
+.nasa-data-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.nasa-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8dbbff;
+  font:
+    600 0.68rem "JetBrains Mono",
+    monospace;
+  letter-spacing: 0.09em;
+}
+.nasa-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #62d9a2;
+  box-shadow: 0 0 10px rgba(98, 217, 162, 0.65);
+}
+.nasa-data-head h3 {
+  margin: 7px 0 4px;
+  font:
+    700 1.25rem "Space Grotesk",
+    sans-serif;
+}
+.nasa-intro {
+  margin: 0;
+  color: var(--dim);
+  font-size: 0.86rem;
+}
+.nasa-source-mark {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border: 1px solid rgba(141, 187, 255, 0.25);
+  border-radius: 7px;
+  color: #a9c9ff;
+  font:
+    600 0.68rem "JetBrains Mono",
+    monospace;
+}
+.nasa-image-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(141, 187, 255, 0.18);
+  background: #080f20;
+  aspect-ratio: 2 / 1;
+}
+.nasa-image-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.nasa-image-overlay {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: rgba(5, 10, 22, 0.78);
+  color: #fff;
+  font:
+    600 0.65rem "JetBrains Mono",
+    monospace;
+  letter-spacing: 0.06em;
+}
+.nasa-image-overlay span {
+  color: #9fb8e6;
+  font-weight: 400;
+}
+.nasa-image-meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 9px 1px 12px;
+  color: var(--dim);
+  font-size: 0.73rem;
+}
+.nasa-status {
+  font-weight: 600;
+}
+.nasa-status.success {
+  color: #62d9a2;
+}
+.nasa-status.loading {
+  color: #a9c9ff;
+}
+.nasa-status.error {
+  color: #ff9b9b;
+}
+.nasa-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 2px 0 14px;
+}
+.nasa-controls label {
+  color: var(--dim);
+  font-size: 0.78rem;
+}
+.nasa-controls input {
+  min-width: 145px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  color-scheme: dark;
+  font: inherit;
+}
+.nasa-load-btn {
+  padding: 8px 13px;
+  font-size: 0.8rem;
+}
+.nasa-data-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.nasa-data-facts div {
+  min-width: 0;
+  padding: 9px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+.nasa-data-facts span,
+.nasa-data-facts strong {
+  display: block;
+}
+.nasa-data-facts span {
+  margin-bottom: 4px;
+  color: var(--dim);
+  font-size: 0.68rem;
+}
+.nasa-data-facts strong {
+  color: #dbe7ff;
+  font-size: 0.77rem;
+  font-weight: 600;
+}
+.nasa-data-note {
+  margin: 12px 0 8px;
+  color: var(--dim);
+  font-size: 0.73rem;
+  line-height: 1.55;
+}
+.nasa-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.nasa-links a {
+  color: #9ec4ff;
+  font-size: 0.76rem;
+  text-decoration: none;
+}
+.nasa-links a:hover {
+  text-decoration: underline;
+}
+@media (max-width: 640px) {
+  .nasa-data {
+    padding: 13px;
+  }
+  .nasa-data-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nasa-image-meta {
+    display: grid;
+  }
+  .nasa-controls {
+    align-items: stretch;
+  }
+  .nasa-controls label {
+    flex-basis: 100%;
+  }
+  .nasa-controls input {
+    flex: 1;
+  }
+}
+
+/* Mission playback: outcome badge, score reveal and report */
+.scene-status {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.scene-status.success {
+  color: var(--ok);
+}
+.scene-status.warning {
+  color: var(--warn);
+}
+.scene-status.failed,
+.scene-status.blocked {
+  color: var(--bad);
+}
+.status-warning.stage-1 .orbit-track {
+  stroke: var(--warn);
+}
+.status-warning.stage-3 .satellite-object {
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.75));
+}
+.status-warning.stage-4 .data-beam {
+  stroke: var(--warn);
+  animation-duration: 2.6s;
+}
+.status-failed .satellite-object {
+  opacity: 0.4;
+  animation: none;
+}
+.report {
+  margin-top: 14px;
+}
+.report-lead {
+  margin: 6px 0 10px;
+  font-size: 0.88rem;
+}
+.report-lead.bad {
+  color: var(--bad);
+}
+.report-row {
+  display: grid;
+  grid-template-columns: 150px 56px 1fr;
+  gap: 10px;
+  align-items: start;
+  margin: 6px 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.85rem;
+}
+.report-row .down {
+  color: var(--warn);
+}
+.report-row .up {
+  color: var(--ok);
+}
+.report-row em {
+  font-style: normal;
+  color: var(--acc);
+  font-family: "JetBrains Mono", monospace;
+  white-space: nowrap;
+}
+.report-next {
+  margin: 10px 0 4px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--acc2);
+  border-radius: 0 8px 8px 0;
+  background: rgba(167, 139, 250, 0.07);
+  font-size: 0.88rem;
+}
+.score-reveal {
+  animation: score-pop 0.5s ease-out;
+}
+@keyframes score-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@media (max-width: 600px) {
+  .report-row {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .score-reveal {
+    animation: none;
+  }
+}

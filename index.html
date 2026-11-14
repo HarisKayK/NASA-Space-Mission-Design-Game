@@ -98,81 +98,83 @@
         </div>
       </header>
 
-      <section class="hud" id="hud"></section>
-      <section class="card viz-card" id="viz"></section>
-      <nav id="tabs"></nav>
+      <div class="mission-layout">
+        <main class="selection-workspace">
+          <nav id="tabs" aria-label="Mission design sections"></nav>
+          <section class="panel card on" id="p-0">
+            <h2>Mission objective</h2>
+            <div class="grid" id="g-obj"></div>
+            <div class="brief" id="brief"></div>
+            <h3 class="subh">Segments</h3>
+            <div class="flow" id="flow"></div>
+            <h3 class="subh">Concept of operations</h3>
+            <div class="seglist" id="conops"></div>
+            <h3 class="subh">Requirements</h3>
+            <div class="sub">
+              Plan how you will verify each one before you build.
+            </div>
+            <div id="reqs"></div>
+            <h3 class="subh">Real missions to study</h3>
+            <div class="grid" id="ex"></div>
+          </section>
 
-      <main>
-        <section class="panel card on" id="p-0">
-          <h2>Mission objective</h2>
-          <div class="sub">Pick a goal, then design each segment.</div>
-          <div class="grid" id="g-obj"></div>
-          <div class="brief" id="brief"></div>
-          <h3 class="subh">Segments</h3>
-          <div class="flow" id="flow"></div>
-          <h3 class="subh">Concept of operations</h3>
-          <div class="sub">How the mission will work, in time order.</div>
-          <div class="seglist" id="conops"></div>
-          <h3 class="subh">Requirements</h3>
-          <div class="sub">
-            Plan how you will verify each one before you build.
+          <section class="panel card" id="p-1">
+            <h2>Launch segment</h2>
+            <h3 class="subh">Orbit</h3>
+            <div class="grid" id="g-orb"></div>
+            <h3 class="subh">Launch vehicle</h3>
+            <div class="grid" id="g-veh"></div>
+          </section>
+
+          <section class="panel card" id="p-2">
+            <h2>Space segment</h2>
+            <h3 class="subh">Spacecraft bus</h3>
+            <div class="grid" id="g-bus"></div>
+            <h3 class="subh">Power system</h3>
+            <div class="grid" id="g-pow"></div>
+            <h3 class="subh">Communications</h3>
+            <div class="grid" id="g-com"></div>
+            <h3 class="subh">Instruments (choose any)</h3>
+            <div class="grid" id="g-ins"></div>
+          </section>
+
+          <section class="panel card" id="p-3">
+            <h2>Ground segment</h2>
+            <h3 class="subh">Ground stations</h3>
+            <div class="grid" id="g-gnd"></div>
+            <h3 class="subh">Mission control</h3>
+            <div class="grid" id="g-ctl"></div>
+          </section>
+
+          <section class="panel card" id="p-4">
+            <h2>User segment</h2>
+            <h3 class="subh">Data access</h3>
+            <div class="grid" id="g-usr"></div>
+          </section>
+
+          <section class="panel card" id="p-5">
+            <h2>Simulate</h2>
+            <div class="row">
+              <button class="btn" id="run">Launch mission ▶</button>
+            </div>
+            <div id="out"></div>
+          </section>
+          <p class="note">
+            Hover a card for specifications and sources. Estimated values are
+            identified.
+          </p>
+        </main>
+        <aside class="dashboard card" aria-label="Mission dashboard">
+          <div class="dashboard-head">
+            <div class="eyebrow">MISSION CONTROL</div>
+            <h2>Mission dashboard</h2>
           </div>
-          <div id="reqs"></div>
-          <h3 class="subh">Real missions to study</h3>
-          <div class="grid" id="ex"></div>
-        </section>
-
-        <section class="panel card" id="p-1">
-          <h2>Launch segment</h2>
-          <div class="sub">Gets the mission into space.</div>
-          <h3 class="subh">Orbit</h3>
-          <div class="grid" id="g-orb"></div>
-          <h3 class="subh">Launch vehicle</h3>
-          <div class="grid" id="g-veh"></div>
-        </section>
-
-        <section class="panel card" id="p-2">
-          <h2>Space segment</h2>
-          <div class="sub">The spacecraft and its instruments.</div>
-          <h3 class="subh">Spacecraft bus</h3>
-          <div class="grid" id="g-bus"></div>
-          <h3 class="subh">Power system</h3>
-          <div class="grid" id="g-pow"></div>
-          <h3 class="subh">Communications</h3>
-          <div class="grid" id="g-com"></div>
-          <h3 class="subh">Instruments (choose any)</h3>
-          <div class="grid" id="g-ins"></div>
-        </section>
-
-        <section class="panel card" id="p-3">
-          <h2>Ground segment</h2>
-          <div class="sub">Stations and mission control.</div>
-          <h3 class="subh">Ground stations</h3>
-          <div class="grid" id="g-gnd"></div>
-          <h3 class="subh">Mission control</h3>
-          <div class="grid" id="g-ctl"></div>
-        </section>
-
-        <section class="panel card" id="p-4">
-          <h2>User segment</h2>
-          <div class="sub">
-            People who use the data. Start here: begin with the end in mind.
-          </div>
-          <h3 class="subh">Data access</h3>
-          <div class="grid" id="g-usr"></div>
-        </section>
-
-        <section class="panel card" id="p-5">
-          <h2>Simulate</h2>
-          <div class="sub">Run it, adjust, repeat.</div>
-          <div class="row">
-            <button class="btn" id="run">Launch mission ▶</button>
-          </div>
-          <div id="out"></div>
-        </section>
-        <div class="tip" id="tip"></div>
-        <p class="note">≈ estimated. Hover a card for its real-world source.</p>
-      </main>
+          <h3 class="dashboard-label">MISSION STATUS</h3>
+          <section class="hud" id="hud"></section>
+          <h3 class="dashboard-label">CURRENT SELECTIONS</h3>
+          <section id="selection-summary" class="selection-summary"></section>
+        </aside>
+      </div>
     </div>
     <div id="insinfo" role="tooltip"></div>
     <script>

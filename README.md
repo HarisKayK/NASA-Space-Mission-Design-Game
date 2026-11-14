@@ -18,7 +18,7 @@ index.html          page markup
 css/
   base.css          colour variables, reset, typography, page layout
   components.css    cards, HUD, tabs, option cards, buttons, checks
-  illustrations.css SVG pictures, mission diagram, animations
+  illustrations.css SVG pictures and animations
   info-panel.css    hover panel next to the cards
 data/               all game content (edit these to change the game)
   objectives.json   mission goals: budget, months, suitable orbits, need and goals
@@ -35,7 +35,7 @@ js/
   icons.js          all the SVG illustrations
   ui/
     render.js       redraws the page      cards.js     option cards
-    hud.js          top meters            viz.js       mission diagram
+    hud.js          top meters
     briefing.js     need, ConOps, requirements, missions
     simulate.js     "Launch mission" results
     infopanel.js    hover info and fit verdicts
@@ -54,3 +54,10 @@ js/
 ## Mission playback
 
 The Simulate tab now includes a rule-based mission timeline: launch and separation, orbit insertion, commissioning, science operations, downlink, and end-of-mission review. The selected design determines which phases are nominal, degraded, failed, or blocked, and the game lists practical issues to resolve. This is an educational systems-level playback, not a high-fidelity orbital, thermal, or communications simulation.
+
+
+## NASA live imagery integration
+
+The Earth observation objective includes a live global browse image from NASA's Global Imagery Browse Services (GIBS): MODIS Terra Corrected Reflectance True Color. The app requests the selected observation date through the public GIBS WMS GetMap endpoint. If that date is not available yet, it automatically checks up to seven earlier dates and reports the actual date shown. No API key is required for this public visualization service.
+
+This is processed browse imagery for educational context, not raw MODIS measurements or a substitute for calibrated scientific analysis. NASA GIBS API documentation: https://nasa-gibs.github.io/gibs-api-docs/access-basics/ . NASA Worldview: https://worldview.earthdata.nasa.gov/ .

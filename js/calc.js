@@ -49,6 +49,7 @@ export function calc() {
     hours,
     sci,
     misfit,
+    rawSci: sum("sci"),
     mass: Math.round(bu.mass + p.mass + c.mass + sum("mass")),
     cap: v.cap[orb.id],
     powUse: Math.round(bu.load + c.pow + sum("pow")),

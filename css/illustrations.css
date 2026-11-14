@@ -1,4 +1,4 @@
-/* Illustrations: SVG pictures, the mission diagram and their animations. */
+/* Illustrations: SVG pictures and their animations. */
 
 .svg {
   width: 100%;
@@ -25,23 +25,6 @@
   height: 100%;
 }
 
-.viz-card {
-  padding: 10px 14px;
-  margin-bottom: 16px;
-  background: radial-gradient(
-    120% 120% at 50% 0,
-    rgba(30, 50, 110, 0.55),
-    rgba(8, 12, 28, 0.8)
-  );
-}
-
-.vizwrap {
-  overflow-x: auto;
-}
-
-.svg.viz {
-  min-width: 560px;
-}
 
 .svg text {
   fill: var(--dim);
@@ -90,9 +73,6 @@
   animation: dsh 4s linear infinite;
 }
 
-.flowln {
-  animation: dsh 1.2s linear infinite;
-}
 
 .scn {
   animation: scn 4s ease-in-out infinite alternate;

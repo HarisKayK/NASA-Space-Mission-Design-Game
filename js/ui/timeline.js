@@ -83,3 +83,27 @@ export function buildTimeline(c) {
 
   return { phases, incidents, complete, launchOK, budgetOK };
 }
+
+// Score report: how each choice changes the science score, and which fix adds the most.
+export function buildReport(c) {
+  const factors = [
+    ["Instrument fit", c.rawSci ? c.sci / c.rawSci : 1, "Swap in instruments that suit this objective."],
+    ["Orbit match", c.orbOK ? 1 : 0.4, "Choose an orbit that suits the objective."],
+    ["Data return", Math.min(1, c.down / Math.max(c.data, 1)), "Send more data home: a faster radio or more ground contact."],
+    ["Lifetime", Math.min(1, c.life / c.months), "Pick a spacecraft bus that lasts the whole mission."],
+    ["Power", c.powUse <= c.gen ? 1 : 0.3, "Add power or cut loads so every system runs."],
+    ["Control reliability", c.k.rel, "Choose a more reliable mission-control team."],
+    ["Data access", c.u.mult, "Open the data to more users."],
+  ];
+  const s0 = factors.reduce((a, f) => a * f[1], c.rawSci);
+  const hardFail = [];
+  if (c.mass > c.cap) hardFail.push("the spacecraft is too heavy for the rocket");
+  if (c.cost > c.budget) hardFail.push("the design is over budget");
+  const sci = hardFail.length ? 0 : Math.round(s0);
+  const eff = c.cost <= c.budget ? Math.round(((c.budget - c.cost) / c.budget) * 20) : 0;
+  const rows = factors
+    .filter((f) => Math.abs(f[1] - 1) > 1e-9)
+    .map(([name, m, tip]) => ({ name, mult: Math.round(m * 100) / 100, bonus: m > 1, gain: m < 1 ? Math.round(s0 / m - s0) : 0, tip }))
+    .sort((a, b) => b.gain - a.gain);
+  return { base: Math.round(c.rawSci), sci, eff, total: sci + eff, hardFail, rows, noScience: c.rawSci === 0, full: factors.filter((f) => f[1] >= 1).map((f) => f[0]) };
+}

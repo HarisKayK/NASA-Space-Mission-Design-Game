@@ -6,7 +6,7 @@ import { reqs } from "../calc.js";
 export function renderBriefing(c) {
   const o = c.o;
   $("brief").innerHTML =
-    `<div class="ref">${o.disc} · mission need</div><p class="briefp">${o.need}</p><div class="tags">${o.goals.map((g, i) => `<span>Goal ${i + 1}: ${g}</span>`).join("")}</div>`;
+    `<p class="briefp">${o.need}</p><div class="tags">${o.goals.map((g) => `<span>${g}</span>`).join("")}</div>`;
   const ins = [...S.ins].map((i) => INS[i].n.replace(/ \(.*\)/, ""));
   $("conops").innerHTML = [
     [

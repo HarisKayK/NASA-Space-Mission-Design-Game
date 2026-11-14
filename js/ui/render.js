@@ -12,15 +12,32 @@ import {
   CTL,
   USR,
   SEGS,
-  TIPS,
   MAP,
 } from "../data.js";
 import { calc } from "../calc.js";
 import { ICON, sv } from "../icons.js";
 import { fill, opt } from "./cards.js";
 import { hud } from "./hud.js";
-import { viz } from "./viz.js";
 import { renderBriefing } from "./briefing.js";
+
+
+function renderSelectionSummary() {
+  const chosen = [
+    ["Objective", OBJ[S.obj]?.n],
+    ["Orbit", ORB[S.orb]?.n],
+    ["Launch vehicle", VEH[S.veh]?.n],
+    ["Spacecraft bus", BUS[S.bus]?.n],
+    ["Power", POW[S.pow]?.n],
+    ["Communications", COM[S.com]?.n],
+    ["Instruments", [...S.ins].map((i) => INS[i]?.n).filter(Boolean).join(", ") || "None selected"],
+    ["Ground station", GND[S.gnd]?.n],
+    ["Mission control", CTL[S.ctl]?.n],
+    ["Data access", USR[S.usr]?.n],
+  ];
+  $("selection-summary").innerHTML = chosen.map(([label, value]) =>
+    `<div class="selection-row"><span>${label}</span><strong>${value || "—"}</strong></div>`
+  ).join("");
+}
 
 export function render() {
   const c = calc(),
@@ -138,8 +155,7 @@ export function render() {
     b.querySelector("h3").dataset.n = i + 1;
     $("flow").appendChild(b);
   });
-  $("tip").textContent = TIPS[S.tab];
-  $("viz").innerHTML = viz();
   renderBriefing(c);
   hud();
+  renderSelectionSummary();
 }

@@ -19,7 +19,7 @@ function fitOf(k, i) {
   if (k == "ins") {
     const n = INS[i];
     return n.fit.includes(o.id)
-      ? ["ok", "Suits your objective."]
+      ? ["ok", "Good fit for this objective."]
       : ["warn", `Weak fit for ${o.n} (30% value).`];
   }
   const keep = S[k];
@@ -73,8 +73,8 @@ function fitOf(k, i) {
           ];
     case "ctl":
       return x.rel >= 1
-        ? ["ok", "Fast fixes. Full reliability."]
-        : ["warn", `Slower to react. Score ×${x.rel}.`];
+        ? ["ok", "Full reliability."]
+        : ["warn", `Reduced response. Score ×${x.rel}.`];
     case "usr":
       return x.mult >= 1
         ? ["ok", `Reaches ${x.users}. Score ×${x.mult}.`]
