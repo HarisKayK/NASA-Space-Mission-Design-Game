@@ -11,7 +11,8 @@ export let OBJ,
   CTL,
   USR,
   MAP,
-  LISTS;
+  LISTS,
+  BODIES;
 
 const FILES = {
   OBJ: "objectives",
@@ -24,6 +25,7 @@ const FILES = {
   GND: "ground",
   CTL: "control",
   USR: "users",
+  BODIES: "orbital-bodies",
 };
 
 const load = (name) =>
@@ -36,7 +38,7 @@ export async function loadData() {
   const keys = Object.keys(FILES);
   const vals = await Promise.all(keys.map((k) => load(FILES[k])));
   const d = Object.fromEntries(keys.map((k, i) => [k, vals[i]]));
-  ({ OBJ, ORB, VEH, BUS, POW, COM, INS, GND, CTL, USR } = d);
+  ({ OBJ, ORB, VEH, BUS, POW, COM, INS, GND, CTL, USR, BODIES } = d);
   // objective id -> orbit ids that suit it
   MAP = Object.fromEntries(OBJ.map((o) => [o.id, o.orbits]));
   // grid kind -> list, used by the cards and the info panel

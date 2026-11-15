@@ -12,10 +12,12 @@ import {
   CTL,
   USR,
   MAP,
+  BODIES,
 } from "../data.js";
 import { calc } from "../calc.js";
 import { fill, opt } from "./cards.js";
 import { hud } from "./hud.js";
+import { renderOrbitAnalysis } from "../orbital.js";
 
 const MISSION_ART = {
   earth: {
@@ -134,6 +136,7 @@ export function render() {
     (i) => (S.orb = i),
     (o) => [["Altitude", o.alt], ["Period", o.per]],
   );
+  $("orbit-analysis").innerHTML = renderOrbitAnalysis(ORB[S.orb], BODIES);
   fill(
     "g-veh",
     VEH,

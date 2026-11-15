@@ -1159,3 +1159,112 @@ nav button.on {
   margin: 0;
   text-align: left;
 }
+
+/* Orbital mechanics panel: numeric checks only; no animated orbit view. */
+#orbit-analysis {
+  margin: 12px 0 18px;
+}
+.orbit-analysis {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.orbit-analysis-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.orbit-analysis-kicker {
+  color: var(--dim);
+  font: 600 0.65rem "JetBrains Mono", monospace;
+  letter-spacing: 0.12em;
+}
+.orbit-analysis-head h3 {
+  margin-top: 3px;
+  font-size: 0.98rem;
+}
+.orbit-analysis-status {
+  flex: none;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font: 700 0.62rem "JetBrains Mono", monospace;
+  letter-spacing: 0.04em;
+}
+.orbit-analysis-status.matched {
+  color: var(--ok);
+  background: rgba(74, 222, 128, 0.1);
+}
+.orbit-analysis-status.review,
+.orbit-analysis-status.incomplete {
+  color: var(--warn);
+  background: rgba(251, 191, 36, 0.1);
+}
+.orbit-analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.orbit-analysis-grid > div {
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid rgba(140, 170, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.orbit-analysis-grid span {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--dim);
+  font-size: 0.68rem;
+}
+.orbit-analysis-grid strong {
+  display: block;
+  font: 600 0.78rem "JetBrains Mono", monospace;
+  overflow-wrap: anywhere;
+}
+.orbit-analysis-note {
+  margin: 10px 0 0;
+  color: var(--dim);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+.orbit-analysis-sources {
+  margin: 8px 0 0;
+  font-size: 0.72rem;
+}
+.orbit-analysis-sources a {
+  color: var(--acc);
+  text-decoration: none;
+}
+.orbit-analysis-sources a:hover,
+.orbit-analysis-sources a:focus-visible {
+  text-decoration: underline;
+}
+.orbit-analysis-method {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 0.76rem;
+}
+.orbit-analysis-method summary {
+  color: var(--acc);
+  cursor: pointer;
+  font-weight: 600;
+}
+.orbit-analysis-method p {
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+.orbit-analysis-method code {
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+}
+@media (max-width: 600px) {
+  .orbit-analysis-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

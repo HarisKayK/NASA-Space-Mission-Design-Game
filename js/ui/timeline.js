@@ -2,6 +2,19 @@
 
 const phase = (name, time, status, detail) => ({ name, time, status, detail });
 
+function orbitMechanicsNote(c) {
+  const a = c.orbitAnalysis;
+  if (a?.kind === "circular") {
+    const match = a.consistent === false ? "This differs from the listed reference period and should be reviewed." : "This is consistent with the listed reference period.";
+    const note = ` A simplified Kepler two-body estimate gives ${a.periodLabel}; the catalogue reference is ${a.referencePeriodLabel}. ${match}`;
+    return c.orb.id === "moon"
+      ? `${note} The Earth-to-Moon transfer itself is not propagated; only the lunar destination orbit is checked.`
+      : note;
+  }
+  if (a?.kind === "incomplete") return ` A full Kepler period is not calculated: ${a.note}`;
+  return "";
+}
+
 export function buildTimeline(c) {
   const launchOK = c.cap == null ? null : c.mass <= c.cap;
   const launchPass = launchOK !== false;
@@ -35,8 +48,8 @@ export function buildTimeline(c) {
       "Orbit insertion", "T+hours",
       orbitOK ? "success" : "warning",
       orbitOK
-        ? `${c.orb.n} is compatible with the ${c.o.n.toLowerCase()} objective.`
-        : `${c.orb.n} is not on the recommended orbit list for this objective. The spacecraft arrives, but coverage or viewing geometry will reduce science return.`
+        ? `${c.orb.n} is compatible with the ${c.o.n.toLowerCase()} objective.${orbitMechanicsNote(c)}`
+        : `${c.orb.n} is not on the recommended orbit list for this objective. The spacecraft arrives, but coverage or viewing geometry will reduce science return.${orbitMechanicsNote(c)}`
     ));
     phases.push(phase(
       "Commissioning", "T+1–7 days",
@@ -61,7 +74,8 @@ export function buildTimeline(c) {
     ));
   }
 
-  const technicalOK = launchOK === true && orbitOK && powerOK && dataOK && lifeOK && payloadOK && controlOK && usersOK;
+  // Unverified launch capacity (no data) does not block success; only a proven overload does.
+  const technicalOK = launchOK !== false && orbitOK && powerOK && dataOK && lifeOK && payloadOK && controlOK && usersOK;
   const complete = technicalOK && budgetOK;
   phases.push(phase(
     "Mission review", "End of planned mission",
@@ -104,10 +118,16 @@ export function buildReport(c) {
   if (c.cap != null && c.mass > c.cap) hardFail.push("the spacecraft is too heavy for the rocket");
   if (c.cost > c.budget) hardFail.push("the design is over budget");
   const sci = hardFail.length ? 0 : Math.round(s0);
-  const eff = c.cost <= c.budget ? Math.round(((c.budget - c.cost) / c.budget) * 20) : 0;
+  const eff = hardFail.length ? 0 : Math.round(((c.budget - c.cost) / c.budget) * 20); // no efficiency points if the launch fails or the budget is blown
   const rows = factors
     .filter((f) => Math.abs(f[1] - 1) > 1e-9)
-    .map(([name, m, tip]) => ({ name, mult: Math.round(m * 100) / 100, bonus: m > 1, gain: m < 1 ? Math.round(s0 / m - s0) : 0, tip }))
+    .map((f) => {
+      const [name, m, tip] = f;
+      // Score if only this factor were perfect (×1). Built from the other factors,
+      // so it still works when this factor is 0 (dividing by it gave NaN).
+      const without = factors.reduce((a, g) => a * (g === f ? 1 : g[1]), c.rawSci);
+      return { name, mult: Math.round(m * 100) / 100, bonus: m > 1, gain: m < 1 ? Math.round(without - s0) : 0, tip };
+    })
     .sort((a, b) => b.gain - a.gain);
   return { base: Math.round(c.rawSci), sci, eff, total: sci + eff, hardFail, rows, noScience: c.rawSci === 0, launchUnverified: c.cap == null, full: factors.filter((f) => f[1] >= 1).map((f) => f[0]) };
 }

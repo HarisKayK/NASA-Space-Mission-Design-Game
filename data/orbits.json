@@ -6,7 +6,15 @@
     "d": "Close views, short passes.",
     "alt": "≈500 km",
     "per": "95 min",
-    "life": 0.8
+    "life": 0.8,
+    "mechanics": {
+      "model": "circular-approximation",
+      "centralBody": "earth",
+      "altitudeKm": 500,
+      "referencePeriodMin": 95,
+      "referencePeriodLabel": "95 min",
+      "note": "Low Earth orbit period check; simplified two-body model."
+    }
   },
   {
     "id": "sso",
@@ -15,7 +23,15 @@
     "d": "Steady lighting, global coverage.",
     "alt": "705 km",
     "per": "99 min",
-    "life": 1
+    "life": 1,
+    "mechanics": {
+      "model": "circular-approximation",
+      "centralBody": "earth",
+      "altitudeKm": 705,
+      "referencePeriodMin": 99,
+      "referencePeriodLabel": "99 min",
+      "note": "This period check does not calculate the J2-driven nodal precession required for a true sun-synchronous orbit."
+    }
   },
   {
     "id": "geo",
@@ -24,7 +40,15 @@
     "d": "Fixed over one spot.",
     "alt": "35,786 km",
     "per": "24 h",
-    "life": 1
+    "life": 1,
+    "mechanics": {
+      "model": "circular-approximation",
+      "centralBody": "earth",
+      "altitudeKm": 35786,
+      "referencePeriodMin": 1436.068,
+      "referencePeriodLabel": "24 h (sidereal)",
+      "note": "The reference uses one sidereal day. Station-keeping and longitude control are not modelled."
+    }
   },
   {
     "id": "moon",
@@ -33,7 +57,15 @@
     "d": "Hidden behind the Moon at times.",
     "alt": "≈50 km",
     "per": "113 min",
-    "life": 0.9
+    "life": 0.9,
+    "mechanics": {
+      "model": "circular-approximation",
+      "centralBody": "moon",
+      "altitudeKm": 50,
+      "referencePeriodMin": 113,
+      "referencePeriodLabel": "113 min",
+      "note": "Circular lunar-polar destination orbit. The Earth-to-Moon transfer leg is not propagated in this game."
+    }
   },
   {
     "id": "helio",
@@ -42,6 +74,13 @@
     "d": "Sun-centred, highly elliptical trajectory.",
     "alt": "Variable · perihelion ≈6.1M km",
     "per": "88 days–7 years",
-    "life": 1
+    "life": 1,
+    "mechanics": {
+      "model": "elliptical-incomplete",
+      "centralBody": "sun",
+      "perihelionKm": 6100000,
+      "referencePeriodLabel": "88 days–7 years",
+      "note": "Perihelion is supplied, but semi-major axis or aphelion is not. A complete Kepler period cannot be derived from perihelion alone."
+    }
   }
 ]

@@ -12,7 +12,9 @@ import {
   USR,
   INS,
   MAP,
+  BODIES,
 } from "./data.js";
+import { analyzeOrbit } from "./orbital.js";
 
 export function calc() {
   const o = OBJ[S.obj],
@@ -27,6 +29,7 @@ export function calc() {
   const ins = [...S.ins].map((i) => INS[i]),
     sum = (x) => ins.reduce((a, b) => a + b[x], 0);
   const missionYears = o.months / 12;
+  const orbitAnalysis = analyzeOrbit(orb, BODIES);
   const lifecycleCost = (item) => item.cost * (item.annual ? missionYears : 1);
   const seg = {
     launch: v.cost,
@@ -43,6 +46,7 @@ export function calc() {
   return {
     o,
     orb,
+    orbitAnalysis,
     v,
     g,
     k,

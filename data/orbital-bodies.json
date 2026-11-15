@@ -1,0 +1,21 @@
+{
+  "earth": {
+    "name": "Earth",
+    "radiusKm": 6378.137,
+    "radiusType": "equatorial radius",
+    "muKm3s2": 398600.435507,
+    "source": "NASA Earth Fact Sheet for equatorial radius; JPL DE440 Astrodynamic Parameters for GM."
+  },
+  "moon": {
+    "name": "Moon",
+    "radiusKm": 1737.4,
+    "radiusType": "volumetric mean radius",
+    "muKm3s2": 4902.800118,
+    "source": "NASA Moon Fact Sheet for mean radius; JPL DE440 Astrodynamic Parameters for GM."
+  },
+  "sun": {
+    "name": "Sun",
+    "muKm3s2": 132712440041.27942,
+    "source": "JPL DE440 Astrodynamic Parameters for heliocentric GM."
+  }
+}

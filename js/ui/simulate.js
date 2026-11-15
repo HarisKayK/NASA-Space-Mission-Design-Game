@@ -148,6 +148,12 @@ export function simulate() {
   add(c.k.rel >= 0.99, c.k.rel >= 0.99 ? `Control: ${Number((c.k.rel * 100).toFixed(2))}% reliability.` : `Control: ${Math.round(c.k.rel * 100)}% reliability; response is reduced.`);
   add(c.u.mult >= 1, c.u.mult >= 1 ? `Users: ${c.u.users.replace(" users", "")} reached.` : "Users: limited reach.");
   add(c.orbOK, c.orbOK ? "Orbit suits the objective." : "Orbit doesn’t suit the objective.");
+  if (c.orbitAnalysis?.kind === "circular") {
+    const periodText = `Kepler period: ${c.orbitAnalysis.periodLabel}; reference: ${c.orbitAnalysis.referencePeriodLabel}.`;
+    add(c.orbitAnalysis.consistent !== false, `Orbital mechanics: ${periodText} Circular two-body estimate.`);
+  } else {
+    checks.push(`<div class="chk warn">? Orbital mechanics: ${c.orbitAnalysis?.note || "A full Kepler estimate is unavailable for the supplied orbital elements."}</div>`);
+  }
   add(c.life >= c.months, c.life >= c.months ? `Lifetime: ${c.life} of ${c.months} mo.` : `Lifetime too short: ${c.life} of ${c.months} mo.`);
   add(c.cost <= c.budget, c.cost <= c.budget ? `Budget: $${c.budget - c.cost}M left.` : `Over budget by $${c.cost - c.budget}M.`);
   const rep = buildReport(c);
