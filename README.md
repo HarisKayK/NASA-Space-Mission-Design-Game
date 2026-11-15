@@ -10,20 +10,17 @@ designing a space mission.
 - Mission sequence timeline with rule-based launch, orbit, power, science, and downlink checks
 - Non-visual Kepler period checks for selected orbits, with incomplete orbital elements clearly flagged
 
-## NASA DATA
-
-- NASA Pictures from: https://www.nasa.gov/
-- Some pictures from: https://www.pexels.com/
-- Design choices from: https://www.nasa.gov/wp-content/uploads/2025/04/250323-design-and-develop-science-mission.pdf?emrc=a454cf
-
 ## AI's used
 
 - Claude
 - CHAT-GPT
 - Google Gemeni
 
+## DATA FROM RESOURCES
 
-## ORBITAL MECHANICS CHECKS
+- Design choices from: https://www.nasa.gov/wp-content/uploads/2025/04/250323-design-and-develop-science-mission.pdf?emrc=a454cf
+
+###
 
 The Launch segment includes a non-visual orbital mechanics check inspired by two resources in NASA's Web-based Space Mission Visualization collection:
 
@@ -33,3 +30,8 @@ The Launch segment includes a non-visual orbital mechanics check inspired by two
 The central-body constants are stored in `data/orbital-bodies.json`. They use JPL's [DE440 astrodynamic parameters](https://ssd.jpl.nasa.gov/astro_par.html) for gravitational parameters, plus NASA's [Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) and [Moon Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html) for radii.
 
 **Model limits:** circular-orbit results are estimates, not a high-fidelity propagator. The Sun-synchronous check does not calculate J2-driven nodal precession. The Parker Solar Probe reference supplies perihelion and a broad period range, but not a semi-major axis or aphelion, so a full Kepler period is intentionally left uncomputed. The lunar transfer is not numerically propagated because no mission-specific GMAT state-vector file is included.
+
+## OTHER DATA
+
+- NASA Pictures from: https://www.nasa.gov/
+- Some pictures from: https://www.pexels.com/
